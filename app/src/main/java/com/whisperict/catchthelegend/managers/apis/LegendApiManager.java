@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class LegendApiManager {
 
     private static LegendApiManager instance;
-    private static final String MAINURL = "http://84.86.227.219:8081/";
+    private static final String MAINURL = "http://54.38.214.36:8081/";
 
     private LegendApiManager(){
 
