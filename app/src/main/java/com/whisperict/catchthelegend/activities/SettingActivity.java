@@ -15,10 +15,11 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_setting);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.system_settings);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
