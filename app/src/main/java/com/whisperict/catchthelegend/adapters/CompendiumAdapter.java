@@ -6,15 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.entities.Legend;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class CompendiumAdapter extends RecyclerView.Adapter<CompendiumAdapter.ViewHolder> {
-    private ArrayList<Legend> legends = new ArrayList<>();
+    private ArrayList<Legend> legends;
     private OnItemClickListener onItemClickListener;
     private Context context;
 
@@ -40,7 +42,8 @@ public class CompendiumAdapter extends RecyclerView.Adapter<CompendiumAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull CompendiumAdapter.ViewHolder viewHolder, int i) {
-
+        Legend legend = legends.get(i);
+        viewHolder.legendNameTextView.setText(legend.getName());
     }
 
     @Override
@@ -49,9 +52,10 @@ public class CompendiumAdapter extends RecyclerView.Adapter<CompendiumAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView legendNameTextView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            legendNameTextView = itemView.findViewById(R.id.legend_name_text_view);
         }
     }
 }
