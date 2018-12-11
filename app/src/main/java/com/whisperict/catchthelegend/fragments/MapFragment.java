@@ -13,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.managers.MapManager;
@@ -31,8 +32,22 @@ public class MapFragment extends SupportMapFragment implements MapManager.OnMapR
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        LatLng sydney = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(sydney).title("in the land downunder"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLngBounds breda = new LatLngBounds.Builder()
+                .include(new LatLng(51.615751, 4.722507))
+                .include(new LatLng(51.606789, 4.807834))
+                .include(new LatLng(51.589740, 4.823363))
+                .include(new LatLng(51.521217, 4.771453))
+                .include(new LatLng(51.521168, 4.746086))
+                .include(new LatLng(51.574364, 4.691582))
+                .build();
+
+        map.setMinZoomPreference(14);
+        map.setMaxZoomPreference(20);
+
+        map.setBuildingsEnabled(false);
+        map.setIndoorEnabled(false);
+
+        map.setLatLngBoundsForCameraTarget(breda);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(breda.getCenter(), 16));
     }
 }
