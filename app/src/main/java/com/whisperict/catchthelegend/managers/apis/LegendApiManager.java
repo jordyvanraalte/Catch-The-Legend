@@ -46,10 +46,11 @@ public class LegendApiManager {
 
     private void HandleLegendsResponse(JSONObject response, OnLegendApiResponseListener onLegendApiResponseListener) {
         try {
-            JSONArray array = response.getJSONArray("Legends");
+            JSONArray array = response.getJSONArray("legends");
             ArrayList<String> names = new ArrayList<>();
-            for(int i = 0; i < array.length() - 1; i++){
-                names.add(array.getString(i));
+            for(int i = 0; i < array.length(); i++){
+                Log.d("array", array.get(i).toString());
+                names.add(array.getString(i).toString());
             }
             onLegendApiResponseListener.OnLegendsReceive(names);
 
@@ -76,7 +77,14 @@ public class LegendApiManager {
 
     private void HandleLegendResponse(JSONObject response, OnLegendApiResponseListener onLegendApiResponseListener) {
         try {
-            Legend legend = new Legend(response.getString("name"),response.getString("description"),response.getString("rarity"),response.getString("dropRate"));
+            Legend legend = new Legend(
+                    response.getInt("id"),
+                    response.getString("name"),
+                    response.getString("franchise"),
+                    response.getJSONObject("description").getString("en"),
+                    response.getJSONObject("description").getString("nl"),
+                    response.getString("rarity"),
+                    response.getString("dropRate"));
             onLegendApiResponseListener.OnLegendReceive(legend);
         } catch (JSONException e) {
             e.printStackTrace();
