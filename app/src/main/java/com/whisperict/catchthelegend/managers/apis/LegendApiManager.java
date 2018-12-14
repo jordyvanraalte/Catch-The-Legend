@@ -83,27 +83,6 @@ public class LegendApiManager {
         }
     }
 
-    public void getLegendImage(Context context, final OnLegendApiResponseListener onLegendApiResponseListener, String legendName){
-        ImageRequest request = new ImageRequest(MAINURL + "legends/" + legendName + "/image", new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap response) {
-                Log.d("VOLLEY_TAG", "RECEIVED IMAGE");
-                onLegendApiResponseListener.OnLegendImageReceive(response);
-            }
-        }, 0, 0, null, null, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("VOLLEY_TAG", "RECEIVED ERROR AT getLegendImage() METHOD");
-            }
-        }) {
-            @Override
-            public String getBodyContentType(){
-                return "image/png";
-            }
-        };
-        LegendApiRequestQueue.getInstance(context).getRequestQueue().add(request);
-    }
-
     public static LegendApiManager getInstance() {
         if(instance == null){
             instance = new LegendApiManager();
