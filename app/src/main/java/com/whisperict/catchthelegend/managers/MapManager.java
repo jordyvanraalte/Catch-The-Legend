@@ -3,8 +3,10 @@ package com.whisperict.catchthelegend.managers;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -19,17 +21,18 @@ public class MapManager implements ViewTreeObserver.OnGlobalLayoutListener, OnMa
     private static final String TAG = "Permission";
     private SupportMapFragment mapFragment;
     private OnMapReadyListener listener;
-    private Context context;
 
     private GoogleMap googleMap;
     private boolean isMapReady = false;
     private boolean isViewReady = false;
 
-    public MapManager(SupportMapFragment fragment, OnMapReadyListener listener, Context context) {
+    private MapManager(SupportMapFragment fragment, OnMapReadyListener listener) {
         this.mapFragment = fragment;
         this.listener = listener;
-        this.context = context;
-        registerListeners();
+    }
+
+    public static void loadMap(Fragment fragment, @IdRes int id, OnMapReadyListener listener){
+        new MapManager((SupportMapFragment)fragment.getChildFragmentManager().findFragmentById(id), listener).registerListeners();
     }
 
     private void registerListeners() {
