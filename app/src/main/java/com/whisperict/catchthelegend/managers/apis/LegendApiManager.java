@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
@@ -27,13 +28,26 @@ public class LegendApiManager {
 
     }
 
+    public void countLegends(final Context context, final OnLegendApiResponseListener onLegendApiResponseListener){
+        JsonObjectRequest request = new JsonObjectRequest(JsonObjectRequest.Method.GET, MAINURL + "", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                HandleCountResponse(response,onLegendApiResponseListener);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEY_TAG", "RECEIVED ERROR AT countLegends() methods");
+            }
+        });
+    }
+
     public void getLegends(Context context, final OnLegendApiResponseListener onLegendApiResponseListener){
         JsonObjectRequest request = new JsonObjectRequest(JsonObjectRequest.Method.GET, MAINURL + "legends", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("VOLLEY_TAG", "RECEIVED LEGENDS");
                 HandleLegendsResponse(response, onLegendApiResponseListener);
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -73,6 +87,15 @@ public class LegendApiManager {
             }
         });
         LegendApiRequestQueue.getInstance(context).getRequestQueue().add(request);
+    }
+
+    private void HandleCountResponse(JSONObject response, OnLegendApiResponseListener onLegendApiResponseListener){
+        try {
+            int count = response.getInt("amount");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void HandleLegendResponse(JSONObject response, OnLegendApiResponseListener onLegendApiResponseListener) {

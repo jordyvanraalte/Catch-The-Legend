@@ -115,9 +115,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void OnLegendReceive(Legend legend) {
+
     }
 
     @Override
     public void OnLegendsReceive(ArrayList<String> names) {
+    }
+
+    @Override
+    public void OnLegendCountReceive(int count) {
+
     }
 }
