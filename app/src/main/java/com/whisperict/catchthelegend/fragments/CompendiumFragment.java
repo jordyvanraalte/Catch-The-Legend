@@ -16,6 +16,7 @@ import com.whisperict.catchthelegend.adapters.CompendiumAdapter;
 import com.whisperict.catchthelegend.entities.Legend;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CompendiumFragment extends Fragment {
 
@@ -30,10 +31,10 @@ public class CompendiumFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView compendiumRecylcerView = getView().findViewById(R.id.compendium_recycler_view);
-        compendiumRecylcerView.setHasFixedSize(true);
-        compendiumRecylcerView.setLayoutManager(new GridLayoutManager(view.getContext(),3));
+        RecyclerView compendiumRecyclerView = Objects.requireNonNull(getView()).findViewById(R.id.compendium_recycler_view);
+        compendiumRecyclerView.setHasFixedSize(true);
+        compendiumRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(),3));
         CompendiumAdapter compendiumAdapter = new CompendiumAdapter(view.getContext(),legends);
-        compendiumRecylcerView.setAdapter(compendiumAdapter);
+        compendiumRecyclerView.setAdapter(compendiumAdapter);
     }
 }
