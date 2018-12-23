@@ -14,6 +14,7 @@ import java.util.Random;
 public class GameManager implements OnLegendApiResponseListener {
     private Context context;
     private static GameManager instance;
+    private Random random = new Random();
 
     //length of Earth in meters.
     private static final double EARTH_LENGTH = 6371000;
@@ -53,7 +54,6 @@ public class GameManager implements OnLegendApiResponseListener {
 
 
     private Tier generateTier(){
-        Random random = new Random();
         ArrayList<Integer> chances = new ArrayList<>(tierList.keySet());
         for(int i = chances.size() - 1; i >= 0; i--){
             double chance = random.nextInt(101);
@@ -85,7 +85,18 @@ public class GameManager implements OnLegendApiResponseListener {
     @Override
     public void OnRandomLegendReceive(Legend legend) {
         //200 = 200m from last location
-        double maxLatitude = lastSpawnLocation.getLatitude() + (200 / EARTH_LENGTH) * (180 / Math.PI);
+        /*double maxLatitude = lastSpawnLocation.getLatitude() + (200 / EARTH_LENGTH) * (180 / Math.PI);
+        double maxLongitude = lastSpawnLocation.getLongitude() + (200 / EARTH_LENGTH) / Math.cos(lastSpawnLocation.getLatitude() * Math.PI / 180);
+
+        double minLatitude = lastSpawnLocation.getLatitude() + (-200 / EARTH_LENGTH) * (180 / Math.PI);
+        double minLongitude = lastSpawnLocation.getLongitude() + (-200 / EARTH_LENGTH) / Math.cos(lastSpawnLocation.getLatitude() * Math.PI / 180);*/
+
+        double spawnLatitude = lastSpawnLocation.getLatitude() + ((random.nextInt(400) - 200) / EARTH_LENGTH) * (180 / Math.PI);
+        double spawnLongitude = lastSpawnLocation.getLongitude() + ((random.nextInt(400)-200) / EARTH_LENGTH) / Math.cos(lastSpawnLocation.getLatitude() * Math.PI / 180);
+
+        legend.setLatitude(spawnLatitude);
+        legend.setLongitude(spawnLongitude);
+
     }
 
 
