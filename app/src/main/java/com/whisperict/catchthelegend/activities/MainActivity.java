@@ -23,6 +23,7 @@ import com.whisperict.catchthelegend.fragments.MapFragment;
 import com.whisperict.catchthelegend.fragments.QuestFragment;
 import com.whisperict.catchthelegend.managers.apis.LegendApiManager;
 import com.whisperict.catchthelegend.managers.apis.legend.OnLegendApiResponseListener;
+import com.whisperict.catchthelegend.managers.game.GameManager;
 
 import java.util.ArrayList;
 

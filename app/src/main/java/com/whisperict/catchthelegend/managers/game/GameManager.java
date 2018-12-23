@@ -21,17 +21,20 @@ public class GameManager implements OnLegendApiResponseListener {
 
     private LinkedHashMap<Integer, Tier> tierList = new LinkedHashMap<>();
 
-    private Location lastSpawnLocation;
+    private Location lastSpawnLocation = new Location("");
     private boolean gameIsStarted = false;
 
+    private GameResponseListener gameResponseListener;
 
-    public GameManager(Context context){
+
+    public GameManager(Context context, GameResponseListener gameResponseListener){
         tierList.put(0, Tier.COMMON);
         tierList.put(60, Tier.UNCOMMON);
         tierList.put(85, Tier.RARE);
         tierList.put(90, Tier.LEGEND);
         tierList.put(95, Tier.ULTRA_LEGEND);
         this.context = context;
+        this.gameResponseListener = gameResponseListener;
     }
 
     public void start(){
@@ -42,12 +45,13 @@ public class GameManager implements OnLegendApiResponseListener {
         gameIsStarted = false;
     }
 
-    public void update(Location userLocation, Location lastSpawnLocation) {
-        if(userLocation.bearingTo(lastSpawnLocation) >= 200){
+    public void update(Location userLocation) {
+        if(userLocation.distanceTo(this.lastSpawnLocation) >= 200){
             this.lastSpawnLocation = userLocation;
             //generate 3 legends in radius of 200.
-            for(int i = 0; i < 3; i++){
-                getRandomLegend(generateTier());
+            for(int i = 0; i < 50; i++){
+                //TODO change to randomizer
+                getRandomLegend(Tier.COMMON);
             }
         }
     }
@@ -67,7 +71,8 @@ public class GameManager implements OnLegendApiResponseListener {
     private void getRandomLegend(Tier tier){
         switch (tier){
             case COMMON:
-                LegendApiManager.getInstance().getRandomLegendByTier(context, this, "common");
+                //TODO LegendApiManager.getInstance().getRandomLegendByTier(context, this, "common");
+                LegendApiManager.getInstance().getLegend(context,this, "mario");
                 break;
             case UNCOMMON:
                 LegendApiManager.getInstance().getRandomLegendByTier(context, this, "uncommon");
@@ -84,26 +89,38 @@ public class GameManager implements OnLegendApiResponseListener {
 
     @Override
     public void OnRandomLegendReceive(Legend legend) {
-        //200 = 200m from last location
-        /*double maxLatitude = lastSpawnLocation.getLatitude() + (200 / EARTH_LENGTH) * (180 / Math.PI);
-        double maxLongitude = lastSpawnLocation.getLongitude() + (200 / EARTH_LENGTH) / Math.cos(lastSpawnLocation.getLatitude() * Math.PI / 180);
+        // 1.11m = 0.00001 graden src= https://gis.stackexchange.com/questions/8650/measuring-accuracy-of-latitude-and-longitude
+        double x = random.nextInt(300) - 150;
+        double y = random.nextInt(300) - 150;
 
-        double minLatitude = lastSpawnLocation.getLatitude() + (-200 / EARTH_LENGTH) * (180 / Math.PI);
-        double minLongitude = lastSpawnLocation.getLongitude() + (-200 / EARTH_LENGTH) / Math.cos(lastSpawnLocation.getLatitude() * Math.PI / 180);*/
+        double spawnLatitude = lastSpawnLocation.getLatitude() + (x * 0.00001 / 1.11);
+        double spawnLongitude = lastSpawnLocation.getLongitude() + (y * 0.00001 / 1.11);
 
-        double spawnLatitude = lastSpawnLocation.getLatitude() + ((random.nextInt(400) - 200) / EARTH_LENGTH) * (180 / Math.PI);
-        double spawnLongitude = lastSpawnLocation.getLongitude() + ((random.nextInt(400)-200) / EARTH_LENGTH) / Math.cos(lastSpawnLocation.getLatitude() * Math.PI / 180);
+        /*double spawnLatitude = lastSpawnLocation.getLatitude() + ((random.nextInt(400) - 200 ) / EARTH_LENGTH) * (180 / Math.PI);
+        double spawnLongitude = lastSpawnLocation.getLongitude() + ((random.nextInt(1600) * 10 - 800 * 10 ) / EARTH_LENGTH) / Math.cos(lastSpawnLocation.getLatitude() * Math.PI / 180);*/
 
         legend.setLatitude(spawnLatitude);
         legend.setLongitude(spawnLongitude);
-
+        gameResponseListener.spawnLegend(legend);
     }
 
 
 
     @Override
     public void OnLegendReceive(Legend legend) {
+        // 1.11m = 0.00001 graden src= https://gis.stackexchange.com/questions/8650/measuring-accuracy-of-latitude-and-longitude
+        double x = random.nextInt(300) - 150;
+        double y = random.nextInt(300) - 150;
 
+        double spawnLatitude = lastSpawnLocation.getLatitude() + (x * 0.00001 / 1.11);
+        double spawnLongitude = lastSpawnLocation.getLongitude() + (y * 0.00001 / 1.11);
+
+        /*double spawnLatitude = lastSpawnLocation.getLatitude() + ((random.nextInt(400) - 200 ) / EARTH_LENGTH) * (180 / Math.PI);
+        double spawnLongitude = lastSpawnLocation.getLongitude() + ((random.nextInt(1600) * 10 - 800 * 10 ) / EARTH_LENGTH) / Math.cos(lastSpawnLocation.getLatitude() * Math.PI / 180);*/
+
+        legend.setLatitude(spawnLatitude);
+        legend.setLongitude(spawnLongitude);
+        gameResponseListener.spawnLegend(legend);
     }
 
     @Override
@@ -116,8 +133,8 @@ public class GameManager implements OnLegendApiResponseListener {
 
     }
 
-    public static GameManager getInstance(Context context){
-        if(instance == null) {instance = new GameManager(context);}
+    public static GameManager getInstance(Context context, GameResponseListener gameResponseListener){
+        if(instance == null) {instance = new GameManager(context, gameResponseListener);}
         return instance;
     }
 }

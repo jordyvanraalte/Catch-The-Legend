@@ -26,28 +26,36 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.whisperict.catchthelegend.R;
+import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.managers.MapManager;
+import com.whisperict.catchthelegend.managers.game.GameManager;
+import com.whisperict.catchthelegend.managers.game.GameResponseListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MapFragment extends Fragment implements
-        MapManager.OnMapReadyListener {
+public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener {
 
     private GoogleMap map;
     private LocationRequest locationRequest;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location lastLocation;
+    private GameManager gameManager;
 
     private static final int REQUEST_PERMISSION_ID = 1;
     private static final String TAG = "map fragment";
 
+    private ArrayList<Legend> legends = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
+        gameManager = GameManager.getInstance(getContext(), this);
     }
 
     @Override
@@ -104,6 +112,8 @@ public class MapFragment extends Fragment implements
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 CameraUpdate cameraLocation = CameraUpdateFactory.newLatLngZoom(latLng, 18);
                 map.animateCamera(cameraLocation);
+
+                gameManager.update(location);
             }
         }
     };
@@ -134,6 +144,14 @@ public class MapFragment extends Fragment implements
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void spawnLegend(Legend legend) {
+        legends.add(legend);
+        Marker legendMark = map.addMarker(new MarkerOptions()
+                .position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
+        legendMark.setTag(legend);
     }
 }
 
