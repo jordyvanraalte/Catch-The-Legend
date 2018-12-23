@@ -3,7 +3,10 @@ package com.whisperict.catchthelegend.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -13,22 +16,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.managers.MapManager;
 
+import java.util.List;
 import java.util.Objects;
 
-public class MapFragment extends Fragment implements MapManager.OnMapReadyListener {
+public class MapFragment extends Fragment implements
+        MapManager.OnMapReadyListener {
 
     private GoogleMap map;
+    private LocationRequest locationRequest;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private Location lastLocation;
+
     private static final int REQUEST_PERMISSION_ID = 1;
     private static final String TAG = "map fragment";
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(fusedLocationProviderClient != null){
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }
     }
 
     @Nullable
@@ -44,16 +71,42 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         MapManager.loadMap(this, R.id.map, this);
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        if (!checkPermission())
-            requestPermission();
-        else
-            map.setMyLocationEnabled(true);
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(1000);
+        locationRequest.setFastestInterval(1000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!checkPermission())
+                requestPermission();
+            else
+                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+                map.setMyLocationEnabled(true);
+        }
+
+        map.getUiSettings().setMyLocationButtonEnabled(false);
+        map.getUiSettings().setMapToolbarEnabled(false);
     }
+
+    private LocationCallback locationCallback = new LocationCallback(){
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            List<Location> locationList = locationResult.getLocations();
+            if (locationList.size() > 0) {
+                Location location = locationList.get(locationList.size() - 1);
+                Log.i(TAG, "Locations: " + location.getLatitude() + " " + location.getLongitude());
+                lastLocation = location;
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraUpdate cameraLocation = CameraUpdateFactory.newLatLngZoom(latLng, 18);
+                map.animateCamera(cameraLocation);
+            }
+        }
+    };
 
     private boolean checkPermission() {
         return ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION)
