@@ -28,6 +28,21 @@ public class LegendApiManager {
 
     }
 
+
+    public void getRandomLegendByTier(final  Context context, final  OnLegendApiResponseListener onLegendApiResponseListener, String tier){
+        JsonObjectRequest request = new JsonObjectRequest(JsonObjectRequest.Method.GET, MAINURL + "/random/" + tier + "/", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                HandleRandomLegendResponse(response, onLegendApiResponseListener);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEY_TAG", "RECEIVED ERROR AT countLegends() methods");
+            }
+        });
+    }
+
     public void countLegends(final Context context, final OnLegendApiResponseListener onLegendApiResponseListener){
         JsonObjectRequest request = new JsonObjectRequest(JsonObjectRequest.Method.GET, MAINURL + "", null, new Response.Listener<JSONObject>() {
             @Override
@@ -110,6 +125,28 @@ public class LegendApiManager {
                     response.getString("dropRate"));
             onLegendApiResponseListener.OnLegendReceive(legend);
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void HandleRandomLegendResponse(JSONObject response, OnLegendApiResponseListener onLegendApiResponseListener){
+        try {
+            if(!response.has("error")){
+                Legend legend = new Legend(
+                        response.getInt("id"),
+                        response.getString("name"),
+                        response.getString("franchise"),
+                        response.getJSONObject("description").getString("en"),
+                        response.getJSONObject("description").getString("nl"),
+                        response.getString("rarity"),
+                        response.getString("dropRate"));
+                onLegendApiResponseListener.OnLegendReceive(legend);
+            }
+            else {
+                Log.d("API_ERROR", response.toString());
+            }
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }

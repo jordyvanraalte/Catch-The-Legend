@@ -10,4 +10,5 @@ public interface OnLegendApiResponseListener {
     void OnLegendReceive(Legend legend);
     void OnLegendsReceive(ArrayList<String> names);
     void OnLegendCountReceive(int count);
+    void OnRandomLegendReceive(Legend legend);
 }

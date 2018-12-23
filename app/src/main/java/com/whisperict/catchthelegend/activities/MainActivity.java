@@ -126,4 +126,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void OnLegendCountReceive(int count) {
 
     }
+
+    @Override
+    public void OnRandomLegendReceive(Legend legend) {
+
+    }
 }

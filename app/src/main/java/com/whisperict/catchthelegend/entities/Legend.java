@@ -1,5 +1,7 @@
 package com.whisperict.catchthelegend.entities;
 
+import android.location.Location;
+
 public class Legend {
     private int id;
     private String name;
@@ -8,6 +10,7 @@ public class Legend {
     private String descriptionDutch;
     private String rarity;
     private String dropRate;
+    private Location location;
 
     public Legend(int id, String name, String franchise, String descriptionEnglish, String descriptionDutch, String rarity, String dropRate) {
         this.id = id;
@@ -17,6 +20,20 @@ public class Legend {
         this.descriptionDutch = descriptionDutch;
         this.rarity = rarity;
         this.dropRate = dropRate;
+        this.location = new Location("");
+    }
+
+
+    public void setLatitude(double latitude){
+        this.location.setLatitude(latitude);
+    }
+
+    public void setLongitude(double longitude){
+        this.location.setLongitude(longitude);
+    }
+
+    public Location getLocation(){
+        return this.location;
     }
 
     public int getId() {
