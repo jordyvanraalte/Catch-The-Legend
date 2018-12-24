@@ -2,6 +2,7 @@ package com.whisperict.catchthelegend.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -24,11 +25,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.whisperict.catchthelegend.R;
+import com.whisperict.catchthelegend.activities.DetailedLegendActivity;
 import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.managers.MapManager;
 import com.whisperict.catchthelegend.managers.game.GameManager;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener {
+public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap map;
     private LocationRequest locationRequest;
@@ -99,6 +100,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.getUiSettings().setMapToolbarEnabled(false);
+        map.setOnMarkerClickListener(this);
     }
 
     private LocationCallback locationCallback = new LocationCallback(){
@@ -152,6 +154,18 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         Marker legendMark = map.addMarker(new MarkerOptions()
                 .position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Legend legend = (Legend) marker.getTag();
+        if(legend != null){
+            Intent intent = new Intent(getContext(), DetailedLegendActivity.class);
+            intent.putExtra("LEGEND", legend);
+            startActivity(intent);
+        }
+
+        return false;
     }
 }
 

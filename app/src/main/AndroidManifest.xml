@@ -21,10 +21,11 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,11 +33,9 @@
             android:name=".activities.SettingActivity"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"
-                />
+                android:value=".activities.MainActivity" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -50,6 +49,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".activities.DetailedLegendActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

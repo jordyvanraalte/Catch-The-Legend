@@ -1,8 +1,10 @@
 package com.whisperict.catchthelegend.entities;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Legend {
+public class Legend implements Parcelable {
     private int id;
     private String name;
     private String franchise;
@@ -23,6 +25,29 @@ public class Legend {
         this.location = new Location("");
     }
 
+
+    protected Legend(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        franchise = in.readString();
+        descriptionEnglish = in.readString();
+        descriptionDutch = in.readString();
+        rarity = in.readString();
+        dropRate = in.readString();
+        location = in.readParcelable(Location.class.getClassLoader());
+    }
+
+    public static final Creator<Legend> CREATOR = new Creator<Legend>() {
+        @Override
+        public Legend createFromParcel(Parcel in) {
+            return new Legend(in);
+        }
+
+        @Override
+        public Legend[] newArray(int size) {
+            return new Legend[size];
+        }
+    };
 
     public void setLatitude(double latitude){
         this.location.setLatitude(latitude);
@@ -103,5 +128,22 @@ public class Legend {
                 ", rarity='" + rarity + '\'' +
                 ", dropRate='" + dropRate + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(franchise);
+        parcel.writeString(descriptionEnglish);
+        parcel.writeString(descriptionDutch);
+        parcel.writeString(rarity);
+        parcel.writeString(dropRate);
+        parcel.writeParcelable(location, i);
     }
 }
