@@ -13,10 +13,13 @@ import android.view.ViewGroup;
 
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.adapters.CompendiumAdapter;
+import com.whisperict.catchthelegend.database.DatabaseManager;
 import com.whisperict.catchthelegend.entities.Legend;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class CompendiumFragment extends Fragment {
 
@@ -31,6 +34,12 @@ public class CompendiumFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Executor databaseThread = Executors.newSingleThreadExecutor();
+        databaseThread.execute(() -> {
+            legends.addAll(DatabaseManager.getInstance(getContext()).getAppDatabase().legendDao().getAll());
+        });
+
         RecyclerView compendiumRecyclerView = Objects.requireNonNull(getView()).findViewById(R.id.compendium_recycler_view);
         compendiumRecyclerView.setHasFixedSize(true);
         compendiumRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(),3));

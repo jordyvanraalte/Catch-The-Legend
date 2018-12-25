@@ -125,8 +125,7 @@ public class LegendApiManager {
                     response.getString("franchise"),
                     response.getJSONObject("description").getString("en"),
                     response.getJSONObject("description").getString("nl"),
-                    response.getString("rarity"),
-                    response.getString("dropRate"));
+                    response.getString("rarity"));
             onLegendApiResponseListener.OnLegendReceive(legend);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -142,8 +141,7 @@ public class LegendApiManager {
                         response.getString("franchise"),
                         response.getJSONObject("description").getString("en"),
                         response.getJSONObject("description").getString("nl"),
-                        response.getString("rarity"),
-                        response.getString("dropRate"));
+                        response.getString("rarity"));
                 onLegendApiResponseListener.OnLegendReceive(legend);
             }
             else {

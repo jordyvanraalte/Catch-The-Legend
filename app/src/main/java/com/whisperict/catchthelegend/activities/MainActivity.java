@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.whisperict.catchthelegend.R;
+import com.whisperict.catchthelegend.database.DatabaseManager;
 import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.fragments.CompendiumFragment;
 import com.whisperict.catchthelegend.fragments.HelpDialogFragment;
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.map);
             toolbar.setTitle(R.string.map);
         }
+
+        //creates a DatabaseManager instance
+        DatabaseManager.getInstance(this);
     }
 
     @Override

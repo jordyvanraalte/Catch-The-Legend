@@ -6,12 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.entities.Legend;
-
-import org.w3c.dom.Text;
+import com.whisperict.catchthelegend.managers.apis.LegendApiManager;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public class CompendiumAdapter extends RecyclerView.Adapter<CompendiumAdapter.Vi
     public void onBindViewHolder(@NonNull CompendiumAdapter.ViewHolder viewHolder, int i) {
         Legend legend = legends.get(i);
         viewHolder.legendNameTextView.setText(legend.getName());
+        Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(legend.getName())).into(viewHolder.legendImage);
     }
 
     @Override
@@ -53,9 +55,11 @@ public class CompendiumAdapter extends RecyclerView.Adapter<CompendiumAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView legendNameTextView;
+        private ImageView legendImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             legendNameTextView = itemView.findViewById(R.id.legend_name_text_view);
+            legendImage = itemView.findViewById(R.id.legend_compendium_image_view);
         }
     }
 }
