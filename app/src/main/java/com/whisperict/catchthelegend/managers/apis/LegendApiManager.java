@@ -28,6 +28,10 @@ public class LegendApiManager {
 
     }
 
+    public String getLegendImageUrl(String legendName){
+        return MAINURL + "legends/" + legendName.toLowerCase() + "/image";
+    }
+
 
     public void getRandomLegendByTier(final  Context context, final  OnLegendApiResponseListener onLegendApiResponseListener, String tier){
         JsonObjectRequest request = new JsonObjectRequest(JsonObjectRequest.Method.GET, MAINURL + "/random/" + tier + "/", null, new Response.Listener<JSONObject>() {
