@@ -32,6 +32,7 @@ import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.activities.DetailedLegendActivity;
 import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.managers.MapManager;
+import com.whisperict.catchthelegend.managers.PermissionManager;
 import com.whisperict.catchthelegend.managers.game.GameManager;
 import com.whisperict.catchthelegend.managers.game.GameResponseListener;
 
@@ -90,17 +91,13 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!checkPermission())
-                requestPermission();
-            else
-                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-                map.setMyLocationEnabled(true);
-        }
-
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.getUiSettings().setMapToolbarEnabled(false);
         map.setOnMarkerClickListener(this);
+
+        if(PermissionManager.checkAndRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+            map.setMyLocationEnabled(true);
+        }
     }
 
     private LocationCallback locationCallback = new LocationCallback(){
@@ -120,32 +117,14 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         }
     };
 
-    private boolean checkPermission() {
-        return ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestPermission() {
-        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MapFragment.REQUEST_PERMISSION_ID);
-    }
-
     @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_PERMISSION_ID) {
-            if (grantResults.length <= 0) {
-                Log.i(TAG, "User interaction was cancelled, empty arrays ");
-            } else if (permissions.length == 1 &&
-                    permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.i(TAG, "Permission granted. ");
+        if (requestCode == PermissionManager.REQUEST_PERMISSION_ID) {
+            if (PermissionManager.checkPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)) {
                 map.setMyLocationEnabled(true);
-            } else {
-                //TODO Maybe add some sort of message to the user that the permission has been denied, but it need to be activated for the app to function.
-                Log.i(TAG, "...");
             }
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
