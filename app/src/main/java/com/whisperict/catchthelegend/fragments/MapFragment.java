@@ -63,7 +63,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     @Override
     public void onPause() {
         super.onPause();
-        if(fusedLocationProviderClient != null){
+        if (fusedLocationProviderClient != null) {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
     }
@@ -97,6 +97,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
         if(PermissionManager.checkAndRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
             map.setMyLocationEnabled(true);
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
         }
     }
 

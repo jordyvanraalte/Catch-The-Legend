@@ -1,7 +1,6 @@
 package com.whisperict.catchthelegend.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
@@ -11,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,13 +20,13 @@ import com.whisperict.catchthelegend.fragments.CompendiumFragment;
 import com.whisperict.catchthelegend.fragments.HelpDialogFragment;
 import com.whisperict.catchthelegend.fragments.MapFragment;
 import com.whisperict.catchthelegend.fragments.QuestFragment;
-import com.whisperict.catchthelegend.managers.apis.LegendApiManager;
 import com.whisperict.catchthelegend.managers.apis.legend.OnLegendApiResponseListener;
 import com.whisperict.catchthelegend.managers.game.GameManager;
+import com.whisperict.catchthelegend.managers.game.GameResponseListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnLegendApiResponseListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private Toolbar toolbar;
 
@@ -116,24 +114,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public void OnLegendReceive(Legend legend) {
-
-    }
-
-    @Override
-    public void OnLegendsReceive(ArrayList<String> names) {
-    }
-
-    @Override
-    public void OnLegendCountReceive(int count) {
-
-    }
-
-    @Override
-    public void OnRandomLegendReceive(Legend legend) {
-
     }
 }

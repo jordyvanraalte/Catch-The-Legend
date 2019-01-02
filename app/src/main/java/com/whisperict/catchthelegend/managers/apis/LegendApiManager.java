@@ -29,12 +29,15 @@ public class LegendApiManager {
     }
 
     public String getLegendImageUrl(String legendName){
+        //exceptions with names
+        legendName = legendName.replace(" ", "-");
+        legendName = legendName.replace(".", "");
         return MAINURL + "legends/" + legendName.toLowerCase() + "/image";
     }
 
 
     public void getRandomLegendByTier(final  Context context, final  OnLegendApiResponseListener onLegendApiResponseListener, String tier){
-        JsonObjectRequest request = new JsonObjectRequest(JsonObjectRequest.Method.GET, MAINURL + "/random/" + tier + "/", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(JsonObjectRequest.Method.GET, MAINURL + "random/" + tier + "/", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 HandleRandomLegendResponse(response, onLegendApiResponseListener);
@@ -45,6 +48,7 @@ public class LegendApiManager {
                 Log.d("VOLLEY_TAG", "RECEIVED ERROR AT countLegends() methods");
             }
         });
+        LegendApiRequestQueue.getInstance(context).getRequestQueue().add(request);
     }
 
     public void countLegends(final Context context, final OnLegendApiResponseListener onLegendApiResponseListener){
@@ -59,6 +63,7 @@ public class LegendApiManager {
                 Log.d("VOLLEY_TAG", "RECEIVED ERROR AT countLegends() methods");
             }
         });
+        LegendApiRequestQueue.getInstance(context).getRequestQueue().add(request);
     }
 
     public void getLegends(Context context, final OnLegendApiResponseListener onLegendApiResponseListener){

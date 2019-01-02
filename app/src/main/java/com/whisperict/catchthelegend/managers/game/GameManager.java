@@ -50,8 +50,7 @@ public class GameManager implements OnLegendApiResponseListener {
             this.lastSpawnLocation = userLocation;
             //generate 3 legends in radius of 200.
             for(int i = 0; i < 50; i++){
-                //TODO change to randomizer
-                getRandomLegend(Tier.COMMON);
+                getRandomLegend(generateTier());
             }
         }
     }
@@ -71,8 +70,7 @@ public class GameManager implements OnLegendApiResponseListener {
     private void getRandomLegend(Tier tier){
         switch (tier){
             case COMMON:
-                //TODO LegendApiManager.getInstance().getRandomLegendByTier(context, this, "common");
-                LegendApiManager.getInstance().getLegend(context,this, "mario");
+                LegendApiManager.getInstance().getRandomLegendByTier(context, this, "common");
                 break;
             case UNCOMMON:
                 LegendApiManager.getInstance().getRandomLegendByTier(context, this, "uncommon");
