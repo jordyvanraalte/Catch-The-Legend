@@ -34,7 +34,7 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.ViewHolder> 
     @NonNull
     @Override
     public QuestAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(context).inflate(R.layout.compendium_recyclerview_item, viewGroup, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.quest_recyclerview_item, viewGroup, false);
         return new QuestAdapter.ViewHolder(v);
     }
 
