@@ -41,10 +41,6 @@ public class GameManager implements OnLegendApiResponseListener {
         gameIsStarted = true;
     }
 
-    public void pause(){
-        gameIsStarted = false;
-    }
-
     public void update(Location userLocation) {
         if(userLocation.distanceTo(this.lastSpawnLocation) >= 200){
             this.lastSpawnLocation = userLocation;

@@ -31,31 +31,11 @@ public class DetailedLegendActivity extends AppCompatActivity {
         ImageView legendImageView = findViewById(R.id.legend_image_view_detailed);
         TextView legendNameTextView  = findViewById(R.id.legend_name_text_view);
         TextView legendDescriptionTextView = findViewById(R.id.legend_description_text_view);
+        TextView amountCatchedTextView = findViewById(R.id.amout_catched_text_view);
 
         legendNameTextView.setText(legend.getName());
         legendDescriptionTextView.setText(legend.getDescriptionDutch());
+        amountCatchedTextView.setText("Catched: " + legend.getCapturedAmount());
         Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(legend.getName())).into(legendImageView);
-
-        Button catchButton = findViewById(R.id.catch_button);
-        catchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppDatabase appDb = DatabaseManager.getInstance(getApplicationContext()).getAppDatabase();
-                Executor databaseThread = Executors.newSingleThreadExecutor();
-                databaseThread.execute(() -> {
-                    if(appDb.legendDao().getLegendById(legend.getId()) != null){
-                        Legend legendDb = appDb.legendDao().getLegendById(legend.getId());
-                        legendDb.setCapturedAmount(legendDb.getCapturedAmount() + 1);
-                        appDb.legendDao().updateLegend(legendDb);
-                    }
-                    else {
-                        legend.setCapturedAmount(1);
-                        legend.setCaptured(true);
-                        appDb.legendDao().insertAll(legend);
-                    }
-                });
-                Toast.makeText(getApplicationContext(),"LEGEND UPDATED",Toast.LENGTH_LONG);
-            }
-        });
     }
 }

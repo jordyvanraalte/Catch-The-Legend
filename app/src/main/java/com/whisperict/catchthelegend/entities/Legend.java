@@ -60,6 +60,8 @@ public class Legend implements Parcelable {
         descriptionDutch = in.readString();
         rarity = in.readString();
         location = in.readParcelable(Location.class.getClassLoader());
+        isCaptured = in.readByte() != 0;
+        capturedAmount = in.readInt();
     }
 
     public static final Creator<Legend> CREATOR = new Creator<Legend>() {
@@ -169,6 +171,7 @@ public class Legend implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+
         parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeString(franchise);
@@ -176,5 +179,8 @@ public class Legend implements Parcelable {
         parcel.writeString(descriptionDutch);
         parcel.writeString(rarity);
         parcel.writeParcelable(location, i);
+        parcel.writeByte((byte) (isCaptured ? 1 : 0));
+        parcel.writeInt(capturedAmount);
     }
+
 }

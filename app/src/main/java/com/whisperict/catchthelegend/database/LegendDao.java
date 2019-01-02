@@ -27,4 +27,7 @@ public interface LegendDao {
 
     @Delete
     void delete(Legend legend);
+
+    @Query("DELETE FROM legend")
+    public void reset();
 }

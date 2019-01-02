@@ -1,14 +1,7 @@
-package com.whisperict.catchthelegend.managers;
+package com.whisperict.catchthelegend.managers.map;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 

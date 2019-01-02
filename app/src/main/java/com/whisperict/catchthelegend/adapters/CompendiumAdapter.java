@@ -60,6 +60,12 @@ public class CompendiumAdapter extends RecyclerView.Adapter<CompendiumAdapter.Vi
             super(itemView);
             legendNameTextView = itemView.findViewById(R.id.legend_name_text_view);
             legendImage = itemView.findViewById(R.id.legend_compendium_image_view);
+            itemView.setOnClickListener(view -> {
+                if(onItemClickListener != null){
+                    int position = getAdapterPosition();
+                    onItemClickListener.onItemClick(position);
+                }
+            });
         }
     }
 }

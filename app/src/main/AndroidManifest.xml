@@ -49,9 +49,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".activities.DetailedLegendActivity"
-            android:theme="@style/AppTheme">
-        </activity>
+        <activity
+            android:name=".activities.DetailedLegendActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.CatchActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.GameActivity"
+            android:theme="@style/AppTheme" ></activity>
     </application>
 
 </manifest>

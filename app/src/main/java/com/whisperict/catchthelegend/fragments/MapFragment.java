@@ -3,14 +3,10 @@ package com.whisperict.catchthelegend.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,10 +25,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.whisperict.catchthelegend.R;
+import com.whisperict.catchthelegend.activities.CatchActivity;
 import com.whisperict.catchthelegend.activities.DetailedLegendActivity;
 import com.whisperict.catchthelegend.entities.Legend;
-import com.whisperict.catchthelegend.managers.MapManager;
-import com.whisperict.catchthelegend.managers.PermissionManager;
+import com.whisperict.catchthelegend.managers.map.MapManager;
+import com.whisperict.catchthelegend.managers.map.PermissionManager;
 import com.whisperict.catchthelegend.managers.game.GameManager;
 import com.whisperict.catchthelegend.managers.game.GameResponseListener;
 
@@ -140,11 +137,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     public boolean onMarkerClick(Marker marker) {
         Legend legend = (Legend) marker.getTag();
         if(legend != null){
-            Intent intent = new Intent(getContext(), DetailedLegendActivity.class);
+            Intent intent = new Intent(getContext(), CatchActivity.class);
             intent.putExtra("LEGEND", legend);
             startActivity(intent);
         }
-
         return false;
     }
 }
