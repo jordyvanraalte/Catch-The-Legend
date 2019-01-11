@@ -20,6 +20,7 @@ import com.whisperict.catchthelegend.fragments.CompendiumFragment;
 import com.whisperict.catchthelegend.fragments.HelpDialogFragment;
 import com.whisperict.catchthelegend.fragments.MapFragment;
 import com.whisperict.catchthelegend.fragments.QuestFragment;
+import com.whisperict.catchthelegend.managers.QuestManager;
 import com.whisperict.catchthelegend.managers.apis.legend.OnLegendApiResponseListener;
 import com.whisperict.catchthelegend.managers.game.GameManager;
 import com.whisperict.catchthelegend.managers.game.GameResponseListener;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //creates a DatabaseManager instance
         DatabaseManager.getInstance(this);
+        QuestManager questManager = new QuestManager();
     }
 
     @Override

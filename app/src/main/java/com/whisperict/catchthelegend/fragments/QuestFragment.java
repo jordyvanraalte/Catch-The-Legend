@@ -16,7 +16,6 @@ import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.adapters.CompendiumAdapter;
 import com.whisperict.catchthelegend.adapters.QuestAdapter;
 import com.whisperict.catchthelegend.entities.Quest;
-import com.whisperict.catchthelegend.managers.factories.QuestFactory;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -33,7 +32,6 @@ public class QuestFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        quests = QuestFactory.getInstance().create();
         RecyclerView questRecyclerView = Objects.requireNonNull(getView()).findViewById(R.id.quest_recyclerview);
         questRecyclerView.setHasFixedSize(true);
         questRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
