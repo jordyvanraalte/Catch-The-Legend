@@ -24,6 +24,7 @@ import com.whisperict.catchthelegend.managers.QuestManager;
 import com.whisperict.catchthelegend.managers.apis.legend.OnLegendApiResponseListener;
 import com.whisperict.catchthelegend.managers.game.GameManager;
 import com.whisperict.catchthelegend.managers.game.GameResponseListener;
+import com.whisperict.catchthelegend.services.GeofenceManager;
 
 import java.util.ArrayList;
 
@@ -117,4 +118,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
 }

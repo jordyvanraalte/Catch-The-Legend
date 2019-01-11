@@ -2,7 +2,9 @@ package com.whisperict.catchthelegend.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,10 +34,12 @@ import com.whisperict.catchthelegend.managers.map.MapManager;
 import com.whisperict.catchthelegend.managers.map.PermissionManager;
 import com.whisperict.catchthelegend.managers.game.GameManager;
 import com.whisperict.catchthelegend.managers.game.GameResponseListener;
+import com.whisperict.catchthelegend.services.GeofenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.DoublePredicate;
 
 public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener, GoogleMap.OnMarkerClickListener {
 
@@ -44,6 +48,8 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location lastLocation;
     private GameManager gameManager;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     private static final int REQUEST_PERMISSION_ID = 1;
     private static final String TAG = "map fragment";
@@ -55,6 +61,8 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         super.onCreate(bundle);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
         gameManager = GameManager.getInstance(getContext(), this);
+        preferences = getActivity().getApplicationContext().getSharedPreferences("MapPreference", Context.MODE_PRIVATE);
+        editor = preferences.edit();
     }
 
     @Override
@@ -83,6 +91,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
+        if (Double.parseDouble(preferences.getString("Latitude", null)) != 0 && Double.parseDouble(preferences.getString("Longitude", null)) != 0 ){
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(preferences.getString("Latitude", null)), Double.parseDouble(preferences.getString("Longitude", null)) ), 10));
+        }
+
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);
@@ -90,6 +102,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.getUiSettings().setMapToolbarEnabled(false);
+        map.getUiSettings().setTiltGesturesEnabled(false);
+        map.getUiSettings().setZoomGesturesEnabled(false);
+        map.getUiSettings().setScrollGesturesEnabled(false);
+        map.getUiSettings().setRotateGesturesEnabled(true);
         map.setOnMarkerClickListener(this);
 
         if(PermissionManager.checkAndRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -111,6 +127,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
                 map.animateCamera(cameraLocation);
 
                 gameManager.update(location);
+
+                editor.putString("Latitude", Double.toString(location.getLongitude()));
+                editor.putString("Longitude", Double.toString(location.getLongitude()));
+                editor.commit();
             }
         }
     };
@@ -131,6 +151,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         Marker legendMark = map.addMarker(new MarkerOptions()
                 .position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
+        GeofenceManager.getInstance().addGeofenceLegends(legends);
     }
 
     @Override
