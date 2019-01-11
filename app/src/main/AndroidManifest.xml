@@ -54,8 +54,6 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.CatchActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activities.GameActivity"
-            android:theme="@style/AppTheme" ></activity>
     </application>
 
 </manifest>

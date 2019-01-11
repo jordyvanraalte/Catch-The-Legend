@@ -27,21 +27,11 @@ public class CatchActivity extends AppCompatActivity {
 
         final Legend legend = getIntent().getParcelableExtra("LEGEND");
 
-        Button catchButton = findViewById(R.id.catch_button);
-        catchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-                intent.putExtra("LEGEND", legend);
-                startActivity(intent);
-            }
-        });
-
         ImageView legendImageView = findViewById(R.id.legend_image_view_catch_activity);
         Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(legend.getName())).into(legendImageView);
 
 
-        /*Button catchButton = findViewById(R.id.catch_button);
+        Button catchButton = findViewById(R.id.catch_button);
         catchButton.setOnClickListener(view -> {
             AppDatabase appDb = DatabaseManager.getInstance(getApplicationContext()).getAppDatabase();
             Executor databaseThread = Executors.newSingleThreadExecutor();
@@ -57,6 +47,6 @@ public class CatchActivity extends AppCompatActivity {
                     appDb.legendDao().insertAll(legend);
                 }
             });
-        });*/
+        });
     }
 }
