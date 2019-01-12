@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning"
+        android:name=".services.MobileApplication"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".activities.MainActivity"
@@ -52,6 +53,16 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <receiver
+            android:name=".services.GeofenceBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".services.GeofenceTransitionsService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity
             android:name=".activities.DetailedLegendActivity"
