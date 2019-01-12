@@ -96,10 +96,11 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-
-        if (Double.parseDouble(preferences.getString("Latitude", null)) != 0 && Double.parseDouble(preferences.getString("Longitude", null)) != 0 ){
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(preferences.getString("Latitude", null)), Double.parseDouble(preferences.getString("Longitude", null)) ), 10));
-        }
+    /*    if(preferences != null){
+            if (Double.parseDouble(preferences.getString("Latitude", null)) != 0 && Double.parseDouble(preferences.getString("Longitude", null)) != 0 ){
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(preferences.getString("Latitude", null)), Double.parseDouble(preferences.getString("Longitude", null)) ), 10));
+            }
+        }*/
 
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
