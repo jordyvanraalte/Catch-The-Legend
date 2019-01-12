@@ -2,14 +2,17 @@ package com.whisperict.catchthelegend.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +40,10 @@ import com.whisperict.catchthelegend.managers.map.PermissionManager;
 import com.whisperict.catchthelegend.managers.game.GameManager;
 import com.whisperict.catchthelegend.managers.game.GameResponseListener;
 import com.whisperict.catchthelegend.services.GeofenceManager;
+import com.whisperict.catchthelegend.services.GeofenceTransitionsService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.DoublePredicate;
@@ -57,6 +62,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     private static final String TAG = "map fragment";
 
     private ArrayList<Legend> legends = new ArrayList<>();
+    public static HashMap<String, Marker> markerHashMap = new HashMap<>();
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -77,6 +83,14 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         if (fusedLocationProviderClient != null) {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
+        LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(GeofenceTransitionsService.ACTION);
+        LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(receiver, filter);
     }
 
     @Nullable
@@ -157,6 +171,8 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         legends.add(legend);
         Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
+        legendMark.setVisible(false);
+        markerHashMap.put(Integer.toString(legend.getId()), legendMark);
         GeofenceManager.getInstance().addGeofenceLegends(legends);
     }
 
@@ -188,5 +204,13 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         polygonOptions.fillColor(R.color.design_default_color_primary_dark);
         map.addPolygon(polygonOptions);
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //if(intent.getStringExtra("GeofenceIDEnter"))
+            //String markerID = intent.getStringExtra("GeofenceIDEnter");
+        }
+    };
 }
 
