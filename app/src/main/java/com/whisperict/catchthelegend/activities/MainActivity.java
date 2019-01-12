@@ -15,17 +15,11 @@ import android.view.MenuItem;
 
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.database.DatabaseManager;
-import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.fragments.CompendiumFragment;
 import com.whisperict.catchthelegend.fragments.HelpDialogFragment;
 import com.whisperict.catchthelegend.fragments.MapFragment;
 import com.whisperict.catchthelegend.fragments.QuestFragment;
-import com.whisperict.catchthelegend.managers.QuestManager;
-import com.whisperict.catchthelegend.managers.apis.legend.OnLegendApiResponseListener;
-import com.whisperict.catchthelegend.managers.game.GameManager;
-import com.whisperict.catchthelegend.managers.game.GameResponseListener;
-
-import java.util.ArrayList;
+import com.whisperict.catchthelegend.managers.game.QuestManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -58,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //creates a DatabaseManager instance
         DatabaseManager.getInstance(this);
-        QuestManager questManager = new QuestManager();
+        //gets quests from firebase
+        QuestManager questManager = QuestManager.getInstance();
     }
 
     @Override

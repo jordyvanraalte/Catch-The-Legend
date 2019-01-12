@@ -1,24 +1,14 @@
 package com.whisperict.catchthelegend.activities;
 
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.whisperict.catchthelegend.R;
-import com.whisperict.catchthelegend.database.AppDatabase;
-import com.whisperict.catchthelegend.database.DatabaseManager;
 import com.whisperict.catchthelegend.entities.Legend;
-import com.whisperict.catchthelegend.managers.apis.LegendApiManager;
-
-import java.util.ArrayList;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
 
 public class DetailedLegendActivity extends AppCompatActivity {
 

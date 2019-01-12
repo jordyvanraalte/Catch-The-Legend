@@ -24,10 +24,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.activities.CatchActivity;
-import com.whisperict.catchthelegend.activities.DetailedLegendActivity;
 import com.whisperict.catchthelegend.entities.Legend;
+import com.whisperict.catchthelegend.managers.apis.OnRouteResponseListener;
+import com.whisperict.catchthelegend.managers.game.QuestManager;
 import com.whisperict.catchthelegend.managers.map.MapManager;
 import com.whisperict.catchthelegend.managers.map.PermissionManager;
 import com.whisperict.catchthelegend.managers.game.GameManager;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener, GoogleMap.OnMarkerClickListener {
+public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener, GoogleMap.OnMarkerClickListener, OnRouteResponseListener {
 
     private GoogleMap map;
     private LocationRequest locationRequest;
@@ -55,6 +57,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         super.onCreate(bundle);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
         gameManager = GameManager.getInstance(getContext(), this);
+
+        if(QuestManager.getInstance().getCurrentQuest() != null){
+            QuestManager.getInstance().getRoute(getContext(), this);
+        }
     }
 
     @Override
@@ -128,8 +134,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     @Override
     public void spawnLegend(Legend legend) {
         legends.add(legend);
-        Marker legendMark = map.addMarker(new MarkerOptions()
-                .position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
+        Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
     }
 
@@ -142,6 +147,24 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             startActivity(intent);
         }
         return false;
+    }
+
+    @Override
+    public void onStop() {
+        QuestManager.getInstance().setLastLocation(lastLocation);
+        super.onStop();
+
+    }
+
+    @Override
+    public void OnRouteResponse(ArrayList<LatLng> locations) {
+        PolygonOptions polygonOptions = new PolygonOptions();
+        for (LatLng location : locations){
+            polygonOptions.add(location);
+        }
+
+        polygonOptions.fillColor(R.color.design_default_color_primary_dark);
+        map.addPolygon(polygonOptions);
     }
 }
 

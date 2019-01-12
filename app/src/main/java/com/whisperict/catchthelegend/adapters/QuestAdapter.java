@@ -59,6 +59,12 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.ViewHolder> 
             imageView = itemView.findViewById(R.id.quest_image_view_recycler_view_item);
             nameTextView = itemView.findViewById(R.id.quest_name_recyclerview_item);
             descriptionTextView = itemView.findViewById(R.id.description_text_view_recycler_view);
+            itemView.setOnClickListener(view -> {
+                if(onItemClickListener != null){
+                    int position = getAdapterPosition();
+                    onItemClickListener.onItemClick(position);
+                }
+            });
         }
     }
 }

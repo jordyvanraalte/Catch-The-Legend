@@ -4,7 +4,7 @@ import android.content.Context;
 import android.location.Location;
 
 import com.whisperict.catchthelegend.entities.Legend;
-import com.whisperict.catchthelegend.managers.apis.LegendApiManager;
+import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
 import com.whisperict.catchthelegend.managers.apis.legend.OnLegendApiResponseListener;
 
 import java.util.ArrayList;

@@ -1,9 +1,7 @@
 package com.whisperict.catchthelegend.activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -12,7 +10,7 @@ import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.database.AppDatabase;
 import com.whisperict.catchthelegend.database.DatabaseManager;
 import com.whisperict.catchthelegend.entities.Legend;
-import com.whisperict.catchthelegend.managers.apis.LegendApiManager;
+import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
