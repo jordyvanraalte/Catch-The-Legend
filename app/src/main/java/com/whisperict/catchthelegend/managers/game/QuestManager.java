@@ -1,16 +1,18 @@
-package com.whisperict.catchthelegend.managers;
+package com.whisperict.catchthelegend.managers.game;
 
 
 
+import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.whisperict.catchthelegend.entities.Quest;
+import com.whisperict.catchthelegend.managers.apis.OnRouteResponseListener;
+import com.whisperict.catchthelegend.managers.apis.RouteManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ public class QuestManager {
     private static QuestManager instance;
     private ArrayList<Quest> quests = new ArrayList<>();
     private Quest currentQuest;
+    private Location lastLocation;
     private QuestManager(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quests = db.collection("Quests");
@@ -53,7 +56,19 @@ public class QuestManager {
     }
 
     public void setCurrentQuest(Quest currentQuest) {
+        ArrayList<Location> locations = new ArrayList<>();
+        locations.add(lastLocation);
+        locations.addAll(currentQuest.getLocations());
+        currentQuest.setLocations(locations);
         this.currentQuest = currentQuest;
+    }
+
+    public Location getLastLocation() {
+        return lastLocation;
+    }
+
+    public void setLastLocation(Location lastLocation) {
+        this.lastLocation = lastLocation;
     }
 
     public static QuestManager getInstance(){
@@ -61,5 +76,9 @@ public class QuestManager {
             instance = new QuestManager();
         }
         return instance;
+    }
+
+    public void getRoute(Context context, OnRouteResponseListener onRouteResponseListener) {
+        RouteManager.getInstance().getRoute(currentQuest.getLocations(),context, onRouteResponseListener);
     }
 }
