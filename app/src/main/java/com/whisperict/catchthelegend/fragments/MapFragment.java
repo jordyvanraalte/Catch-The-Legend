@@ -2,6 +2,7 @@ package com.whisperict.catchthelegend.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -208,8 +209,14 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //if(intent.getStringExtra("GeofenceIDEnter"))
-            //String markerID = intent.getStringExtra("GeofenceIDEnter");
+            int resultCode = intent.getIntExtra("resultCode", Activity.RESULT_CANCELED);
+            if (resultCode == -1){
+                markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(true);
+            }
+
+            if (resultCode == 1){
+                markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(false);
+            }
         }
     };
 }

@@ -1,5 +1,6 @@
 package com.whisperict.catchthelegend.services;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -19,7 +20,7 @@ public class GeofenceTransitionsService extends JobIntentService {
 
     private static final int JOB_ID = 573;
 
-    private static final String TAG = GeofenceTransitionsService.class.getName();
+    private static final String TAG = "GEOFENCE";
     public static final String ACTION = "com.whisperict.catchthelegend.GeofenceTransitionsService";
 
     /**
@@ -54,8 +55,10 @@ public class GeofenceTransitionsService extends JobIntentService {
                 Marker marker = MapFragment.markerHashMap.get(geofence.getRequestId());
                 if (marker != null){
                     Intent geofenceIntent = new Intent(ACTION);
-                    intent.putExtra("GeofenceIDEnter", geofence.getRequestId());
+                    intent.putExtra("ResultCode", -1);
+                    intent.putExtra("GeofenceID", geofence.getRequestId());
                     LocalBroadcastManager.getInstance(this).sendBroadcast(geofenceIntent);
+                    Log.i(TAG, "Geofence ID transmitted " + geofence.getRequestId());
                 }
             }
         }
@@ -66,8 +69,10 @@ public class GeofenceTransitionsService extends JobIntentService {
                 Marker marker = MapFragment.markerHashMap.get(geofence.getRequestId());
                 if (marker != null){
                     Intent geofenceIntent = new Intent(ACTION);
-                    intent.putExtra("GeofenceIDExit", geofence.getRequestId());
+                    intent.putExtra("ResultCode", 1);
+                    intent.putExtra("GeofenceID", geofence.getRequestId());
                     LocalBroadcastManager.getInstance(this).sendBroadcast(geofenceIntent);
+                    Log.i(TAG, "Geofence ID transmitted " + geofence.getRequestId());
                 }
             }
         }
