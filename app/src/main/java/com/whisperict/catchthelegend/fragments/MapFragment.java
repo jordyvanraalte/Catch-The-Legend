@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -136,7 +140,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
         if(PermissionManager.checkAndRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
             map.setMyLocationEnabled(true);
-            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
         }
     }
 
@@ -167,6 +171,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         if (requestCode == PermissionManager.REQUEST_PERMISSION_ID) {
             if (PermissionManager.checkPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)) {
                 map.setMyLocationEnabled(true);
+                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
             }
         }
     }
@@ -196,7 +201,6 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     public void onStop() {
         QuestManager.getInstance().setLastLocation(lastLocation);
         super.onStop();
-
     }
 
     @Override
@@ -214,10 +218,12 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             int resultCode = intent.getIntExtra("resultCode", Activity.RESULT_CANCELED);
             if (resultCode == -1){
                 markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(true);
+                Log.i("GEOFENCE", "Marker visible");
             }
 
             if (resultCode == 1){
                 markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(false);
+                Log.i("GEOFENCE", "marker invisible");
             }
         }
     };

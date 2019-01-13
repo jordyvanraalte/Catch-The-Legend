@@ -40,6 +40,7 @@ public class GeofenceTransitionsService extends JobIntentService {
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+
         if (geofencingEvent.hasError()) {
             Log.e(TAG, "GeofencingError: " + geofencingEvent.getErrorCode());
             return;
@@ -55,10 +56,10 @@ public class GeofenceTransitionsService extends JobIntentService {
                 Marker marker = MapFragment.markerHashMap.get(geofence.getRequestId());
                 if (marker != null){
                     Intent geofenceIntent = new Intent(ACTION);
-                    intent.putExtra("ResultCode", -1);
-                    intent.putExtra("GeofenceID", geofence.getRequestId());
+                    geofenceIntent.putExtra("ResultCode", -1);
+                    geofenceIntent.putExtra("GeofenceID", geofence.getRequestId());
                     LocalBroadcastManager.getInstance(this).sendBroadcast(geofenceIntent);
-                    Log.i(TAG, "Geofence ID transmitted " + geofence.getRequestId());
+                    Log.i(TAG, "Geofence ID transmitted Entered" + geofence.getRequestId());
                 }
             }
         }
@@ -69,10 +70,10 @@ public class GeofenceTransitionsService extends JobIntentService {
                 Marker marker = MapFragment.markerHashMap.get(geofence.getRequestId());
                 if (marker != null){
                     Intent geofenceIntent = new Intent(ACTION);
-                    intent.putExtra("ResultCode", 1);
-                    intent.putExtra("GeofenceID", geofence.getRequestId());
+                    geofenceIntent.putExtra("ResultCode", 1);
+                    geofenceIntent.putExtra("GeofenceID", geofence.getRequestId());
                     LocalBroadcastManager.getInstance(this).sendBroadcast(geofenceIntent);
-                    Log.i(TAG, "Geofence ID transmitted " + geofence.getRequestId());
+                    Log.i(TAG, "Geofence ID transmitted Exited" + geofence.getRequestId());
                 }
             }
         }
