@@ -9,12 +9,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.util.UUID;
+
 @Entity
 public class Legend implements Parcelable {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
     private int id;
+
+    @ColumnInfo
+    private String uniqueId;
 
     @ColumnInfo(name = "name")
     private String name;
@@ -41,6 +46,7 @@ public class Legend implements Parcelable {
     private int capturedAmount = 0;
 
 
+
     public Legend(int id, String name, String franchise, String descriptionEnglish, String descriptionDutch, String rarity) {
         this.id = id;
         this.name = name;
@@ -49,11 +55,12 @@ public class Legend implements Parcelable {
         this.descriptionDutch = descriptionDutch;
         this.rarity = rarity;
         this.location = new Location("");
+        this.uniqueId = UUID.randomUUID().toString();
     }
-
 
     protected Legend(Parcel in) {
         id = in.readInt();
+        uniqueId = in.readString();
         name = in.readString();
         franchise = in.readString();
         descriptionEnglish = in.readString();
@@ -62,6 +69,20 @@ public class Legend implements Parcelable {
         location = in.readParcelable(Location.class.getClassLoader());
         isCaptured = in.readByte() != 0;
         capturedAmount = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(uniqueId);
+        dest.writeString(name);
+        dest.writeString(franchise);
+        dest.writeString(descriptionEnglish);
+        dest.writeString(descriptionDutch);
+        dest.writeString(rarity);
+        dest.writeParcelable(location, flags);
+        dest.writeByte((byte) (isCaptured ? 1 : 0));
+        dest.writeInt(capturedAmount);
     }
 
     public static final Creator<Legend> CREATOR = new Creator<Legend>() {
@@ -152,6 +173,14 @@ public class Legend implements Parcelable {
         this.capturedAmount = capturedAmount;
     }
 
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
     @Override
     public String toString() {
         return "Legend{" +
@@ -169,18 +198,6 @@ public class Legend implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
 
-        parcel.writeInt(id);
-        parcel.writeString(name);
-        parcel.writeString(franchise);
-        parcel.writeString(descriptionEnglish);
-        parcel.writeString(descriptionDutch);
-        parcel.writeString(rarity);
-        parcel.writeParcelable(location, i);
-        parcel.writeByte((byte) (isCaptured ? 1 : 0));
-        parcel.writeInt(capturedAmount);
-    }
 
 }

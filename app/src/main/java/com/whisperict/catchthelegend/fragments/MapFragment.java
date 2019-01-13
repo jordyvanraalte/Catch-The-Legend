@@ -186,7 +186,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
         legendMark.setVisible(true);
-        markerHashMap.put(Integer.toString(legend.getId()), legendMark);
+        markerHashMap.put(legend.getUniqueId(), legendMark);
         GeofenceManager.getInstance().addGeofenceLegends(legends);
     }
 
@@ -221,7 +221,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int resultCode = intent.getIntExtra("resultCode", Activity.RESULT_CANCELED);
+            int resultCode = intent.getIntExtra("ResultCode", Activity.RESULT_CANCELED);
             if (resultCode == -1){
                 markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(true);
                 Log.i("GEOFENCE", "Marker visible");

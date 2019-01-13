@@ -77,7 +77,7 @@ public class GeofenceManager {
 
         for(Legend legend : legends) {
             geofences.add(new Geofence.Builder()
-                    .setRequestId(Integer.toString(legend.getId()))
+                    .setRequestId(legend.getUniqueId())
                     .setCircularRegion(legend.getLocation().getLatitude(), legend.getLocation().getLongitude(), 100)
                     .setExpirationDuration(Geofence.NEVER_EXPIRE)
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
