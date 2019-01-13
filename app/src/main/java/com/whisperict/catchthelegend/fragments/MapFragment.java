@@ -181,7 +181,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         legends.add(legend);
         Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
-        legendMark.setVisible(false);
+        legendMark.setVisible(true);
         markerHashMap.put(Integer.toString(legend.getId()), legendMark);
         GeofenceManager.getInstance().addGeofenceLegends(legends);
     }
