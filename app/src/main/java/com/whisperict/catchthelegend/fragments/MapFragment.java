@@ -100,6 +100,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         super.onResume();
         IntentFilter filter = new IntentFilter(GeofenceTransitionsService.ACTION);
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(receiver, filter);
+        if(PermissionManager.checkAndRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+        }
+
     }
 
     @Nullable
@@ -202,6 +206,8 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         QuestManager.getInstance().setLastLocation(lastLocation);
         super.onStop();
     }
+
+
 
     @Override
     public void OnRouteResponse(ArrayList<LatLng> locations) {
