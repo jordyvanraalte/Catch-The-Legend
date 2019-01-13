@@ -41,16 +41,9 @@ public class RouteManager {
                     ArrayList<com.google.android.gms.maps.model.LatLng> polyLocations = new ArrayList<>();
                     JSONArray routes = response.getJSONArray("routes");
                     JSONObject route = routes.getJSONObject(0);
-                    JSONArray legs = route.getJSONArray("legs");
-                    for(int i = 0; i < legs.length(); i++){
-                        JSONObject leg = legs.getJSONObject(i);
-                        JSONArray steps = leg.getJSONArray("steps");
-                        for(int s = 0; s < steps.length(); s++){
-                            JSONObject polyline = steps.getJSONObject(s).getJSONObject("polyline");
-                            polyLocations.addAll(PolyUtil.decode(polyline.getString("points")));
-                        }
-                    }
-                onRouteResponseListener.OnRouteResponse(polyLocations);
+                    JSONObject overview = route.getJSONObject("overview_polyline");
+                    polyLocations.addAll(PolyUtil.decode(overview.getString("points")));
+                    onRouteResponseListener.OnRouteResponse(polyLocations);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

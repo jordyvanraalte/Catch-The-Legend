@@ -31,6 +31,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.activities.CatchActivity;
 import com.whisperict.catchthelegend.entities.Legend;
@@ -47,6 +49,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.function.DoublePredicate;
 
 public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener, GoogleMap.OnMarkerClickListener, OnRouteResponseListener {
@@ -124,10 +128,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.getUiSettings().setMapToolbarEnabled(false);
-        map.getUiSettings().setTiltGesturesEnabled(false);
-        map.getUiSettings().setZoomGesturesEnabled(false);
-        map.getUiSettings().setScrollGesturesEnabled(false);
-        map.getUiSettings().setRotateGesturesEnabled(true);
+        //map.getUiSettings().setTiltGesturesEnabled(false);
+        //map.getUiSettings().setZoomGesturesEnabled(false);
+        //map.getUiSettings().setScrollGesturesEnabled(false);
+        //map.getUiSettings().setRotateGesturesEnabled(true);
         map.setOnMarkerClickListener(this);
 
         if(PermissionManager.checkAndRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -197,13 +201,11 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
     @Override
     public void OnRouteResponse(ArrayList<LatLng> locations) {
-        PolygonOptions polygonOptions = new PolygonOptions();
-        for (LatLng location : locations){
-            polygonOptions.add(location);
+        PolylineOptions polyLineOptions = new PolylineOptions();
+        for (int i = 0; i < locations.size(); i++){
+            polyLineOptions.add(locations.get(i));
         }
-
-        polygonOptions.fillColor(R.color.design_default_color_primary_dark);
-        map.addPolygon(polygonOptions);
+        map.addPolyline(polyLineOptions);
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
