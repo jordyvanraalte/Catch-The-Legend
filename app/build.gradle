@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-firestore:17.1.5'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
 }
 

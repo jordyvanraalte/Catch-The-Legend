@@ -1,7 +1,10 @@
 package com.whisperict.catchthelegend.database;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 public class DatabaseManager {
 
@@ -9,7 +12,12 @@ public class DatabaseManager {
     private AppDatabase appDatabase;
 
     private DatabaseManager(Context context){
-        appDatabase = Room.databaseBuilder(context,AppDatabase.class,"CatchTheLegend").build();
+        appDatabase = Room.databaseBuilder(context,AppDatabase.class,"CatchTheLegend").addMigrations(new Migration(1,2) {
+            @Override
+            public void migrate(@NonNull SupportSQLiteDatabase database) {
+                database.execSQL("ALTER TABLE legend" + " ADD COLUMN uniqueId TEXT");
+            }
+        }).build();
     }
 
     public AppDatabase getAppDatabase() {

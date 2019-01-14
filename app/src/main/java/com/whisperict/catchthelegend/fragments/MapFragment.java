@@ -8,14 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -34,12 +31,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.activities.CatchActivity;
 import com.whisperict.catchthelegend.entities.Legend;
+import com.whisperict.catchthelegend.entities.LegendAdapter;
 import com.whisperict.catchthelegend.managers.apis.OnRouteResponseListener;
 import com.whisperict.catchthelegend.managers.game.QuestManager;
 import com.whisperict.catchthelegend.managers.map.MapManager;
@@ -53,9 +51,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.function.DoublePredicate;
 
 public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener, GoogleMap.OnMarkerClickListener, OnRouteResponseListener {
 
@@ -66,6 +61,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     private GameManager gameManager;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private Gson gson;
 
     private static final int REQUEST_PERMISSION_ID = 1;
     private static final String TAG = "map fragment";
@@ -81,9 +77,9 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         preferences = getActivity().getApplicationContext().getSharedPreferences("MapPreference", Context.MODE_PRIVATE);
         editor = preferences.edit();
 
-        if(QuestManager.getInstance().getCurrentQuest() != null){
-            QuestManager.getInstance().getRoute(getContext(), this);
-        }
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Legend.class, new LegendAdapter());
+        gson = gsonBuilder.create();
     }
 
     @Override
@@ -93,6 +89,16 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onDestroy() {
+        preferences = getActivity().getApplicationContext().getSharedPreferences("MapPreference", Context.MODE_PRIVATE);
+        editor = preferences.edit();
+
+        editor.putString("LEGENDS",gson.toJson(legends));
+        editor.apply();
+        super.onDestroy();
     }
 
     @Override
@@ -146,6 +152,17 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             map.setMyLocationEnabled(true);
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
         }
+
+        if(preferences.getString("LEGENDS", null) != null){
+            legends.clear();
+            Legend[] saveLegends = gson.fromJson(preferences.getString("LEGENDS", null),Legend[].class);
+            respawnLegends(saveLegends);
+        }
+
+        if(QuestManager.getInstance().getCurrentQuest() != null){
+            QuestManager.getInstance().getRoute(getContext(), this);
+        }
+
     }
 
     private LocationCallback locationCallback = new LocationCallback(){
@@ -190,6 +207,26 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         GeofenceManager.getInstance().addGeofenceLegends(legends);
     }
 
+    private void respawnLegends(Legend[] savedLegends){
+        for(Legend legend : savedLegends){
+            legends.add(legend);
+            Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
+            legendMark.setTag(legend);
+            legendMark.setVisible(true);
+            markerHashMap.put(legend.getUniqueId(), legendMark);
+            GeofenceManager.getInstance().addGeofenceLegends(legends);
+        }
+    }
+
+    @Override
+    public void deSpawnLegends() {
+        for(Marker marker : markerHashMap.values()) {
+            marker.remove();
+        }
+        markerHashMap.clear();
+        legends.clear();
+    }
+
     @Override
     public boolean onMarkerClick(Marker marker) {
         Legend legend = (Legend) marker.getTag();
@@ -216,6 +253,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             polyLineOptions.add(locations.get(i));
         }
         map.addPolyline(polyLineOptions);
+        Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {

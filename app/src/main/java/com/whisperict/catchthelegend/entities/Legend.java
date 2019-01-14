@@ -18,7 +18,7 @@ public class Legend implements Parcelable {
     @ColumnInfo(name = "id")
     private int id;
 
-    @ColumnInfo
+    @ColumnInfo(name = "uniqueId")
     private String uniqueId;
 
     @ColumnInfo(name = "name")
@@ -45,6 +45,18 @@ public class Legend implements Parcelable {
     @ColumnInfo(name = "captured_amount")
     private int capturedAmount = 0;
 
+    public Legend(@NonNull int id, String uniqueId, String name, String franchise, String descriptionEnglish, String descriptionDutch, String rarity, Location location, boolean isCaptured, int capturedAmount) {
+        this.id = id;
+        this.uniqueId = uniqueId;
+        this.name = name;
+        this.franchise = franchise;
+        this.descriptionEnglish = descriptionEnglish;
+        this.descriptionDutch = descriptionDutch;
+        this.rarity = rarity;
+        this.location = location;
+        this.isCaptured = isCaptured;
+        this.capturedAmount = capturedAmount;
+    }
 
 
     public Legend(int id, String name, String franchise, String descriptionEnglish, String descriptionDutch, String rarity) {
