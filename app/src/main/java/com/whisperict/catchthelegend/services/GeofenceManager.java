@@ -78,9 +78,10 @@ public class GeofenceManager {
         for(Legend legend : legends) {
             geofences.add(new Geofence.Builder()
                     .setRequestId(legend.getUniqueId())
-                    .setCircularRegion(legend.getLocation().getLatitude(), legend.getLocation().getLongitude(), 100)
+                    .setCircularRegion(legend.getLocation().getLatitude(), legend.getLocation().getLongitude(), 60)
                     .setExpirationDuration(Geofence.NEVER_EXPIRE)
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .setNotificationResponsiveness(1000)
                     .build());
             Log.i("GEOFENCE", "geofence for legend has been made");
         }

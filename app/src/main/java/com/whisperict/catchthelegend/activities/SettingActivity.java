@@ -1,7 +1,9 @@
 package com.whisperict.catchthelegend.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +24,8 @@ import java.util.concurrent.Executors;
 public class
 SettingActivity extends AppCompatActivity {
     private Toolbar toolbar;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +43,9 @@ SettingActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary_dark));
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = preferences.edit();
+        editor.apply();
 
         Button reset = findViewById(R.id.reset_button);
         reset.setOnClickListener(new View.OnClickListener() {
