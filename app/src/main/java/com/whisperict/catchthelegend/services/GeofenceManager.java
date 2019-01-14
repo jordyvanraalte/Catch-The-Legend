@@ -55,7 +55,7 @@ public class GeofenceManager {
 
     private GeofencingRequest getGeofencingRequest(List<Geofence> geofences) {
         return new GeofencingRequest.Builder()
-                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | GeofencingRequest.INITIAL_TRIGGER_EXIT)
                 .addGeofences(geofences)
                 .build();
     }
