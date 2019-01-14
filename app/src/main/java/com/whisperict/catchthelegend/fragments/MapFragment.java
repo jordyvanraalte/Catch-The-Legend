@@ -13,6 +13,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -39,6 +40,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.activities.CatchActivity;
+import com.whisperict.catchthelegend.activities.MainActivity;
 import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.managers.apis.OnRouteResponseListener;
 import com.whisperict.catchthelegend.managers.game.QuestManager;
@@ -68,7 +70,9 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     private SharedPreferences.Editor editor;
 
     private static final int REQUEST_PERMISSION_ID = 1;
-    private static final String TAG = "map fragment";
+    private static final String TAG = "mapfragment";
+    private static final String LATITUDE = "latitude";
+    private static final String LONGITUDE = "longitude";
 
     private ArrayList<Legend> legends = new ArrayList<>();
     public static HashMap<String, Marker> markerHashMap = new HashMap<>();
@@ -78,8 +82,9 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         super.onCreate(bundle);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
         gameManager = GameManager.getInstance(getContext(), this);
-        preferences = getActivity().getApplicationContext().getSharedPreferences("MapPreference", Context.MODE_PRIVATE);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = preferences.edit();
+        editor.apply();
 
         if(QuestManager.getInstance().getCurrentQuest() != null){
             QuestManager.getInstance().getRoute(getContext(), this);
@@ -123,11 +128,13 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-    /*    if(preferences != null){
-            if (Double.parseDouble(preferences.getString("Latitude", null)) != 0 && Double.parseDouble(preferences.getString("Longitude", null)) != 0 ){
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(preferences.getString("Latitude", null)), Double.parseDouble(preferences.getString("Longitude", null)) ), 10));
-            }
-        }*/
+
+        Log.i(TAG, "TEST");
+
+        if(preferences.getString(LATITUDE, null) != null && preferences.getString(LONGITUDE, null) != null){
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(preferences.getString(LATITUDE, "")), Double.parseDouble(preferences.getString(LONGITUDE, "")) ), 18));
+            Log.i(TAG, "moved camera to last location " + preferences.getString(LATITUDE, "") + " " + preferences.getString(LONGITUDE, ""));
+        }
 
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
@@ -148,6 +155,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         }
     }
 
+
     private LocationCallback locationCallback = new LocationCallback(){
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -162,9 +170,12 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
                 gameManager.update(location);
 
-                editor.putString("Latitude", Double.toString(location.getLongitude()));
-                editor.putString("Longitude", Double.toString(location.getLongitude()));
-                editor.commit();
+                //SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
+
+                editor.putString(LATITUDE, Double.toString(location.getLatitude()));
+                editor.putString(LONGITUDE, Double.toString(location.getLongitude()));
+
+                editor.apply();
             }
         }
     };
@@ -183,11 +194,13 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     @Override
     public void spawnLegend(Legend legend) {
         legends.add(legend);
+        List<Legend> geoLegend = new ArrayList<>();
+        geoLegend.add(legend);
         Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
         legendMark.setVisible(true);
         markerHashMap.put(legend.getUniqueId(), legendMark);
-        GeofenceManager.getInstance().addGeofenceLegends(legends);
+        GeofenceManager.getInstance().addGeofenceLegends(geoLegend);
     }
 
     @Override
@@ -196,6 +209,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         if(legend != null){
             Intent intent = new Intent(getContext(), CatchActivity.class);
             intent.putExtra("LEGEND", legend);
+            marker.setVisible(false);
             startActivity(intent);
         }
         return false;
