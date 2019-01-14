@@ -1,6 +1,7 @@
 package com.whisperict.catchthelegend.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
@@ -23,6 +24,9 @@ import com.whisperict.catchthelegend.managers.game.QuestManager;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private Toolbar toolbar;
+    private SharedPreferences sharedPreferences;
+
+    public static final String SHARED_PREFS = "sharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
