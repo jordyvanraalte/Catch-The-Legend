@@ -66,7 +66,13 @@
 
         <activity
             android:name=".activities.DetailedLegendActivity"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
         <activity android:name=".activities.CatchActivity"
             android:theme="@style/AppTheme" />
     </application>

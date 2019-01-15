@@ -46,6 +46,29 @@ public class CompendiumAdapter extends RecyclerView.Adapter<CompendiumAdapter.Vi
         Legend legend = legends.get(i);
         viewHolder.legendNameTextView.setText(legend.getName());
         Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(legend.getName())).into(viewHolder.legendImage);
+
+        String rarity = legend.getRarity();
+        switch (rarity) {
+            case "common":
+                viewHolder.background.setImageResource(R.mipmap.eenster);
+                break;
+
+            case "uncommon":
+                viewHolder.background.setImageResource(R.mipmap.tweesterren);
+                break;
+
+            case "rare":
+                viewHolder.background.setImageResource(R.mipmap.driesterren);
+                break;
+
+            case "legend":
+                viewHolder.background.setImageResource(R.mipmap.viersterren);
+                break;
+
+            case "ultra_legend":
+                viewHolder.background.setImageResource(R.mipmap.vijfsterren);
+                break;
+        }
     }
 
     @Override
@@ -56,10 +79,13 @@ public class CompendiumAdapter extends RecyclerView.Adapter<CompendiumAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView legendNameTextView;
         private ImageView legendImage;
+        private ImageView background;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             legendNameTextView = itemView.findViewById(R.id.legend_name_text_view);
             legendImage = itemView.findViewById(R.id.legend_compendium_image_view);
+            background = itemView.findViewById(R.id.compendiumbackground);
             itemView.setOnClickListener(view -> {
                 if(onItemClickListener != null){
                     int position = getAdapterPosition();
