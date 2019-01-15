@@ -111,7 +111,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
     @Override
     public void onDestroy() {
-        SoundManager.getInstance().getConstantPlayer().pause();
+        SoundManager.getInstance().getConstantPlayer ().pause();
         super.onDestroy();
     }
 

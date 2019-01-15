@@ -70,7 +70,7 @@ public class QuestManager {
                         public void OnRandomLegendReceive(Legend legend) {
 
                         }
-                    }, legendName);
+                    }, legendName.replace(" ", "-"));
                 }
             }
         });

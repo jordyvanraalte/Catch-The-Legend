@@ -15,12 +15,17 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.whisperict.catchthelegend.R;
+import com.whisperict.catchthelegend.controllers.database.AppDatabase;
+import com.whisperict.catchthelegend.controllers.database.DatabaseManager;
+import com.whisperict.catchthelegend.model.entities.Legend;
 import com.whisperict.catchthelegend.model.entities.Quest;
 import com.whisperict.catchthelegend.controllers.managers.Sound;
 import com.whisperict.catchthelegend.controllers.managers.SoundManager;
 import com.whisperict.catchthelegend.controllers.managers.apis.legend.LegendApiManager;
 
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -117,6 +122,21 @@ public class QuestEndFragment extends DialogFragment {
 
             started = true;
         }
+
+        AppDatabase appDb = DatabaseManager.getInstance(getContext()).getAppDatabase();
+        Executor databaseThread = Executors.newSingleThreadExecutor();
+        databaseThread.execute(() -> {
+            if (appDb.legendDao().getLegendById(quest.getReward().getId()) != null) {
+                Legend legendDb = appDb.legendDao().getLegendById(quest.getReward().getId());
+                legendDb.setCapturedAmount(legendDb.getCapturedAmount() + 1);
+                appDb.legendDao().updateLegend(legendDb);
+            } else {
+                quest.getReward().setCapturedAmount(1);
+                quest.getReward().setCaptured(true);
+                appDb.legendDao().insertAll(quest.getReward());
+
+            }
+        });
     }
 
 }
