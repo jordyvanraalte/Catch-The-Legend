@@ -21,6 +21,8 @@ import com.whisperict.catchthelegend.fragments.HelpDialogFragment;
 import com.whisperict.catchthelegend.fragments.MapFragment;
 import com.whisperict.catchthelegend.fragments.QuestFragment;
 import com.whisperict.catchthelegend.managers.game.QuestManager;
+import com.whisperict.catchthelegend.services.GeofenceManager;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private Toolbar toolbar;
@@ -116,4 +118,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        GeofenceManager.getInstance().removeGeofences();
+        super.onDestroy();
+    }
 }
