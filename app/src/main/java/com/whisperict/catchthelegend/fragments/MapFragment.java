@@ -217,7 +217,11 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         legendMark.setTag(legend);
         legendMark.setVisible(false);
         markerHashMap.put(legend.getUniqueId(), legendMark);
-        GeofenceManager.getInstance().addGeofenceLegends(geoLegend);
+        //GeofenceManager.getInstance().addGeofenceLegends(geoLegend);
+    }
+
+    public void setGeofence(List<Legend> legends){
+        GeofenceManager.getInstance().addGeofenceLegends(legends);
     }
 
     private void respawnLegends(Legend[] savedLegends){
