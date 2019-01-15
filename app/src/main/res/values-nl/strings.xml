@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Catch The Legend</string>
+    <string name="navigation_drawer_open">Open navigatie</string>
+    <string name="navigation_drawer_close">Sluit navigatie</string>
+    <string name="quests">Missies</string>
+    <string name="compendium">Verzameling</string>
+    <string name="settings">Opties</string>
+    <string name="system_settings">Systeem Opties</string>
+    <string name="help">Help</string>
+    <string name="franchise">Franchise:</string>
+    <string name="caught">Gevangen:</string>
+    <string name="rarity">Zeldzaamheid:</string>
+</resources>

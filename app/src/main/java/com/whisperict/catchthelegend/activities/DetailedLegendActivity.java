@@ -18,6 +18,7 @@ import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
 
 import org.w3c.dom.Text;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class DetailedLegendActivity extends AppCompatActivity {
@@ -29,6 +30,47 @@ public class DetailedLegendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_legend);
         final Legend legend = getIntent().getParcelableExtra("LEGEND");
+
+        if(Locale.getDefault().getLanguage().equals("en")){
+            TextView legendRarity = findViewById(R.id.realrariry);
+            TextView legendFranchise = findViewById(R.id.realfranchise);
+            //TextView legendNameTextView  = findViewById(R.id.legend_name_text_view);
+            TextView legendDescriptionTextView = findViewById(R.id.legend_description_text_view);
+            TextView amountCatchedTextView = findViewById(R.id.amout_catched_text_view);
+
+            //legendNameTextView.setText(legend.getName());
+            legendDescriptionTextView.setText(legend.getDescriptionEnglish());
+
+            amountCatchedTextView.setText(legend.getCapturedAmount() + "");
+            legendRarity.setText(legend.getRarity());
+            legendFranchise.setText(legend.getFranchise());
+        }
+        else if(Locale.getDefault().getLanguage().equals("nl")){
+            TextView legendRarity = findViewById(R.id.realrariry);
+            TextView legendFranchise = findViewById(R.id.realfranchise);
+            //TextView legendNameTextView  = findViewById(R.id.legend_name_text_view);
+            TextView legendDescriptionTextView = findViewById(R.id.legend_description_text_view);
+            //TextView amountCatchedTextView = findViewById(R.id.amout_catched_text_view);
+
+            //legendNameTextView.setText(legend.getName());
+            legendDescriptionTextView.setText(legend.getDescriptionDutch());
+            //amountCatchedTextView.setText(legend.getCapturedAmount());
+            legendRarity.setText(legend.getRarity());
+            legendFranchise.setText(legend.getFranchise());
+        }
+        else {
+            TextView legendRarity = findViewById(R.id.realrariry);
+            TextView legendFranchise = findViewById(R.id.realfranchise);
+            //TextView legendNameTextView  = findViewById(R.id.legend_name_text_view);
+            TextView legendDescriptionTextView = findViewById(R.id.legend_description_text_view);
+            //TextView amountCatchedTextView = findViewById(R.id.amout_catched_text_view);
+
+            //legendNameTextView.setText(legend.getName());
+            legendDescriptionTextView.setText(legend.getDescriptionEnglish());
+            //amountCatchedTextView.setText(legend.getCapturedAmount());
+            legendRarity.setText(legend.getRarity());
+            legendFranchise.setText(legend.getFranchise());
+        }
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,17 +84,6 @@ public class DetailedLegendActivity extends AppCompatActivity {
 
         ImageView legendImageView = findViewById(R.id.legend_image_view_detailed);
         ImageView background = findViewById(R.id.backgroundcarddetail);
-        TextView legendRarity = findViewById(R.id.realrariry);
-        TextView legendFranchise = findViewById(R.id.realfranchise);
-        //TextView legendNameTextView  = findViewById(R.id.legend_name_text_view);
-        TextView legendDescriptionTextView = findViewById(R.id.legend_description_text_view);
-        //TextView amountCatchedTextView = findViewById(R.id.amout_catched_text_view);
-
-        //legendNameTextView.setText(legend.getName());
-        legendDescriptionTextView.setText(legend.getDescriptionDutch());
-        //amountCatchedTextView.setText(legend.getCapturedAmount());
-        legendRarity.setText(legend.getRarity());
-        legendFranchise.setText(legend.getFranchise());
         Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(legend.getName())).into(legendImageView);
 
         String rarity = legend.getRarity();

@@ -28,7 +28,6 @@ public class QuestFragment extends Fragment implements QuestAdapter.OnItemClickL
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SoundManager.getInstance().getConstantPlayer().start();
     }
 
     @Nullable

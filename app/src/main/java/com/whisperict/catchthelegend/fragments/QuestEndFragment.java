@@ -21,6 +21,8 @@ import com.whisperict.catchthelegend.managers.Sound;
 import com.whisperict.catchthelegend.managers.SoundManager;
 import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
 
+import java.util.Locale;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -72,12 +74,32 @@ public class QuestEndFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView questNameTextView = view.findViewById(R.id.end_quest_fragment_quest_name);
-        questNameTextView.setText(quest.getName());
-        ImageView legendImage = view.findViewById(R.id.end_quest_fragment_image_view);
-        Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(quest.getReward().getName())).into(legendImage);
-        TextView description = view.findViewById(R.id.end_quest_fragment_end_description_text_view);
-        description.setText(quest.getdescriptionEndDutch());
+
+
+        if(Locale.getDefault().getLanguage().equals("en")){
+            TextView questNameTextView = view.findViewById(R.id.end_quest_fragment_quest_name);
+            questNameTextView.setText(quest.getName());
+            ImageView legendImage = view.findViewById(R.id.end_quest_fragment_image_view);
+            Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(quest.getReward().getName())).into(legendImage);
+            TextView description = view.findViewById(R.id.end_quest_fragment_end_description_text_view);
+            description.setText(quest.getDescriptionEndEnglish());
+        }
+        else if(Locale.getDefault().getLanguage().equals("nl")){
+            TextView questNameTextView = view.findViewById(R.id.end_quest_fragment_quest_name);
+            questNameTextView.setText(quest.getName());
+            ImageView legendImage = view.findViewById(R.id.end_quest_fragment_image_view);
+            Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(quest.getReward().getName())).into(legendImage);
+            TextView description = view.findViewById(R.id.end_quest_fragment_end_description_text_view);
+            description.setText(quest.getdescriptionEndDutch());
+        }
+        else {
+            TextView questNameTextView = view.findViewById(R.id.end_quest_fragment_quest_name);
+            questNameTextView.setText(quest.getName());
+            ImageView legendImage = view.findViewById(R.id.end_quest_fragment_image_view);
+            Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(quest.getReward().getName())).into(legendImage);
+            TextView description = view.findViewById(R.id.end_quest_fragment_end_description_text_view);
+            description.setText(quest.getDescriptionEndEnglish());
+        }
     }
 
     @Override
