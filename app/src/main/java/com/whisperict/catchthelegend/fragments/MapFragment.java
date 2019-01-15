@@ -219,7 +219,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         geoLegend.add(legend);
         Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
-        legendMark.setVisible(true);
+        legendMark.setVisible(false);
         markerHashMap.put(legend.getUniqueId(), legendMark);
         GeofenceManager.getInstance().addGeofenceLegends(geoLegend);
     }
@@ -233,10 +233,11 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             legends.add(legend);
             Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
             legendMark.setTag(legend);
-            legendMark.setVisible(true);
+            legendMark.setVisible(false);
             markerHashMap.put(legend.getUniqueId(), legendMark);
-            GeofenceManager.getInstance().addGeofenceLegends(legends);
+            //GeofenceManager.getInstance().addGeofenceLegends(legends);
         }
+        GeofenceManager.getInstance().addGeofenceLegends(legends);
     }
 
     @Override
@@ -253,6 +254,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     public boolean onMarkerClick(Marker marker) {
         Legend legend = (Legend) marker.getTag();
         if(legend != null){
+            marker.remove();
             LegendFragment legendFragment = LegendFragment.newInstance(legend);
             legendFragment.showNow(getFragmentManager(),"LEGEND_FRAGMENT: shown");
             return true;
