@@ -164,10 +164,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.getUiSettings().setMapToolbarEnabled(false);
-        map.getUiSettings().setTiltGesturesEnabled(false);
+       /* map.getUiSettings().setTiltGesturesEnabled(false);
         map.getUiSettings().setZoomGesturesEnabled(false);
         map.getUiSettings().setScrollGesturesEnabled(false);
-        map.getUiSettings().setRotateGesturesEnabled(true);
+        map.getUiSettings().setRotateGesturesEnabled(true);*/
         map.setOnMarkerClickListener(this);
 
         if(PermissionManager.checkAndRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -231,10 +231,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     @Override
     public void spawnLegends(ArrayList<Legend> legends) {
         for(Legend legend : legends){
-            legends.add(legend);
+            this.legends.add(legend);
             Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
             legendMark.setTag(legend);
-            legendMark.setVisible(true);
+            legendMark.setVisible(false);
             legendMark.setIcon(icon);
             markerHashMap.put(legend.getUniqueId(), legendMark);
             //GeofenceManager.getInstance().addGeofenceLegends(legends);
@@ -273,6 +273,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         Legend legend = (Legend) marker.getTag();
         if(legend != null){
             marker.remove();
+            legends.remove(legend);
             LegendFragment legendFragment = LegendFragment.newInstance(legend);
             legendFragment.showNow(getFragmentManager(),"LEGEND_FRAGMENT: shown");
             return true;

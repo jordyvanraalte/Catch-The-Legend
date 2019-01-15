@@ -12,8 +12,5 @@ public class HelpDialogFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!SoundManager.getInstance().getConstantPlayer().isPlaying()){
-            SoundManager.getInstance().getConstantPlayer().start();
-        }
     }
 }
