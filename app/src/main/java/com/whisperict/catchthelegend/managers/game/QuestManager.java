@@ -81,4 +81,10 @@ public class QuestManager {
     public void getRoute(Context context, OnRouteResponseListener onRouteResponseListener) {
         RouteManager.getInstance().getRoute(currentQuest.getLocations(),context, onRouteResponseListener);
     }
+
+    public void update(Location location, QuestStatusListener questStatusListener) {
+        if(location.distanceTo(lastLocation) < 30){
+            //questStatusListener.OnQuestFinish();
+        }
+    }
 }

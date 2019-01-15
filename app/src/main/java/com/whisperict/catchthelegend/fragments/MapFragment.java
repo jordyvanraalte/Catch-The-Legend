@@ -42,6 +42,7 @@ import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.entities.LegendAdapter;
 import com.whisperict.catchthelegend.managers.apis.OnRouteResponseListener;
 import com.whisperict.catchthelegend.managers.game.QuestManager;
+import com.whisperict.catchthelegend.managers.game.QuestStatusListener;
 import com.whisperict.catchthelegend.managers.map.MapManager;
 import com.whisperict.catchthelegend.managers.map.PermissionManager;
 import com.whisperict.catchthelegend.managers.game.GameManager;
@@ -54,13 +55,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener, GoogleMap.OnMarkerClickListener, OnRouteResponseListener {
+public class MapFragment extends Fragment implements MapManager.OnMapReadyListener, GameResponseListener, GoogleMap.OnMarkerClickListener, OnRouteResponseListener, QuestStatusListener {
 
     private GoogleMap map;
     private LocationRequest locationRequest;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location lastLocation;
     private GameManager gameManager;
+    private QuestManager questManager;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private Gson gson;
@@ -78,6 +80,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         super.onCreate(bundle);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
         gameManager = GameManager.getInstance(getContext(), this);
+        questManager = QuestManager.getInstance();
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = preferences.edit();
         editor.apply();
@@ -187,6 +190,8 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
                 gameManager.update(location);
 
+
+
                 //SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
 
                 editor.putString(LATITUDE, Double.toString(location.getLatitude()));
@@ -244,12 +249,11 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     public boolean onMarkerClick(Marker marker) {
         Legend legend = (Legend) marker.getTag();
         if(legend != null){
-            Intent intent = new Intent(getContext(), CatchActivity.class);
-            intent.putExtra("LEGEND", legend);
-            marker.setVisible(false);
-            startActivity(intent);
+            LegendFragment legendFragment = LegendFragment.newInstance(legend);
+            legendFragment.showNow(getFragmentManager(),"LEGEND_FRAGMENT: shown");
+            return true;
         }
-        return false;
+            return false;
     }
 
     @Override
@@ -285,5 +289,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             }
         }
     };
+
+    @Override
+    public void OnQuestFinish(Legend legend) {
+
+    }
 }
 

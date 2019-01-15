@@ -1,10 +1,12 @@
 package com.whisperict.catchthelegend.entities;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class Quest {
+public class Quest implements Parcelable {
     private String name;
     private String description;
     private ArrayList<Location> locations;
@@ -14,6 +16,24 @@ public class Quest {
         this.description = description;
         this.locations = locations;
     }
+
+    protected Quest(Parcel in) {
+        name = in.readString();
+        description = in.readString();
+        locations = in.createTypedArrayList(Location.CREATOR);
+    }
+
+    public static final Creator<Quest> CREATOR = new Creator<Quest>() {
+        @Override
+        public Quest createFromParcel(Parcel in) {
+            return new Quest(in);
+        }
+
+        @Override
+        public Quest[] newArray(int size) {
+            return new Quest[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -37,5 +57,17 @@ public class Quest {
 
     public void setLocations(ArrayList<Location> locations) {
         this.locations = locations;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(description);
+        parcel.writeTypedList(locations);
     }
 }

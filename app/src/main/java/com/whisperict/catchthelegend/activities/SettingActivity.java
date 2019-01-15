@@ -19,8 +19,7 @@ import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class
-SettingActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     @Override
