@@ -8,4 +8,5 @@ import com.whisperict.catchthelegend.entities.Legend;
 @Database(entities = {Legend.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract LegendDao legendDao();
+    public abstract LocationDao locationDao();
 }

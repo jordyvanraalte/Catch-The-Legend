@@ -145,6 +145,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/backgroundcarddetail"
                 app:layout_constraintTop_toBottomOf="@+id/rarity" />
+
+            <fragment
+                android:id="@+id/fragment"
+                android:name="com.whisperict.catchthelegend.fragments.DetailedMapFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteY="380dp" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

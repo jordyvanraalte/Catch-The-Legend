@@ -17,5 +17,7 @@
     <string name="franchise">Franchise:</string>
     <string name="caught">Caught:</string>
     <string name="rarity">Rarity:</string>
+    <string name="set_quest">Quest has been set</string>
+    <string name="disable_quest">Quest has been disabled</string>
 
 </resources>

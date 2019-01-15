@@ -1,5 +1,7 @@
 package com.whisperict.catchthelegend.activities;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,9 @@ import android.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 import com.whisperict.catchthelegend.R;
+import com.whisperict.catchthelegend.database.AppDatabase;
+import com.whisperict.catchthelegend.database.DatabaseManager;
+import com.whisperict.catchthelegend.database.LocationDatabase;
 import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.managers.Sound;
 import com.whisperict.catchthelegend.managers.SoundManager;
@@ -19,18 +24,35 @@ import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class DetailedLegendActivity extends AppCompatActivity {
 
     android.support.v7.widget.Toolbar toolbar;
+    private ArrayList<LocationDatabase> locationDatabases = new ArrayList<>();
+    final Handler databaseHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_legend);
-        final Legend legend = getIntent().getParcelableExtra("LEGEND");
+        Legend legend = getIntent().getParcelableExtra("LEGEND");
+        Executor databaseThread = Executors.newSingleThreadExecutor();
+        AppDatabase appDb = DatabaseManager.getInstance(getApplicationContext()).getAppDatabase();
+        databaseThread.execute(() -> {
+            locationDatabases = (ArrayList<LocationDatabase>) appDb.locationDao().getAll();
+            databaseHandler.sendMessage(new Message());
+        });
 
         if(Locale.getDefault().getLanguage().equals("en")){
             TextView legendRarity = findViewById(R.id.realrariry);

@@ -85,11 +85,16 @@ public class QuestManager {
     }
 
     public void setCurrentQuest(Quest currentQuest) {
-        ArrayList<Location> locations = new ArrayList<>();
-        locations.add(lastLocation);
-        locations.addAll(currentQuest.getLocations());
-        currentQuest.setLocations(locations);
-        this.currentQuest = currentQuest;
+        if(currentQuest != null){
+            ArrayList<Location> locations = new ArrayList<>();
+            locations.add(lastLocation);
+            locations.addAll(currentQuest.getLocations());
+            currentQuest.setLocations(locations);
+            this.currentQuest = currentQuest;
+        }
+        else {
+            this.currentQuest = null;
+        }
     }
 
     public Location getLastLocation() {
@@ -113,7 +118,7 @@ public class QuestManager {
 
     public void update(Location location, QuestStatusListener questStatusListener, Polyline polyline) {
         if(location != null && currentQuest != null && polyline != null){
-            if(location.distanceTo(currentQuest.getLocations().get(currentQuest.getLocations().size() - 1)) < Double.MAX_VALUE){
+            if(location.distanceTo(currentQuest.getLocations().get(currentQuest.getLocations().size() - 1)) < 30){
                 questStatusListener.OnQuestFinish(currentQuest);
                 currentQuest = null;
             }

@@ -9,6 +9,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Entity
@@ -38,6 +39,9 @@ public class Legend implements Parcelable {
 
     @Ignore
     private Location location;
+
+    @Ignore
+    private ArrayList<Location> locations = new ArrayList<>();
 
     @ColumnInfo(name = "is_captured")
     private boolean isCaptured = false;

@@ -11,4 +11,6 @@
     <string name="franchise">Franchise:</string>
     <string name="caught">Gevangen:</string>
     <string name="rarity">Zeldzaamheid:</string>
+    <string name="set_quest">Missie is geselecteerd</string>
+    <string name="disable_quest">Missie is geannuleerd</string>
 </resources>

@@ -53,8 +53,18 @@ public class QuestFragment extends Fragment implements QuestAdapter.OnItemClickL
 
     @Override
     public void onItemClick(int position) {
-        QuestManager.getInstance(getContext()).setCurrentQuest(quests.get(position));
-        Toast.makeText(getContext(),"quest has been set",Toast.LENGTH_LONG).show();
+        if(QuestManager.getInstance(getContext()).getCurrentQuest() == null){
+            QuestManager.getInstance(getContext()).setCurrentQuest(quests.get(position));
+            Toast.makeText(getContext(),R.string.set_quest,Toast.LENGTH_LONG).show();
+        }
+        else if(QuestManager.getInstance(getContext()).getCurrentQuest().equals(quests.get(position))){
+            QuestManager.getInstance(getContext()).setCurrentQuest(null);
+            Toast.makeText(getContext(),R.string.disable_quest,Toast.LENGTH_LONG).show();
+        }
+        else {
+            QuestManager.getInstance(getContext()).setCurrentQuest(quests.get(position));
+            Toast.makeText(getContext(),R.string.set_quest,Toast.LENGTH_LONG).show();
+        }
 
     }
 
