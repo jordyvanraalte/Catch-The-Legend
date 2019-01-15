@@ -2,8 +2,6 @@ package com.whisperict.catchthelegend.fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -13,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +18,6 @@ import com.squareup.picasso.Picasso;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.database.AppDatabase;
 import com.whisperict.catchthelegend.database.DatabaseManager;
-import com.whisperict.catchthelegend.database.LocationDatabase;
 import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.managers.Sound;
 import com.whisperict.catchthelegend.managers.SoundManager;
@@ -115,15 +111,11 @@ public class LegendFragment extends DialogFragment {
             if (appDb.legendDao().getLegendById(legend.getId()) != null) {
                 Legend legendDb = appDb.legendDao().getLegendById(legend.getId());
                 legendDb.setCapturedAmount(legendDb.getCapturedAmount() + 1);
-                LocationDatabase locationDatabase = new LocationDatabase(legend.getUniqueId(),legend.getLocation());
                 appDb.legendDao().updateLegend(legendDb);
-                appDb.locationDao().insertAll(locationDatabase);
             } else {
                 legend.setCapturedAmount(1);
                 legend.setCaptured(true);
                 appDb.legendDao().insertAll(legend);
-                LocationDatabase locationDatabase = new LocationDatabase(legend.getUniqueId(),legend.getLocation());
-                appDb.locationDao().insertAll(locationDatabase);
 
             }
         });
