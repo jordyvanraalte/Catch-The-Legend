@@ -32,6 +32,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -67,6 +68,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private Gson gson;
+    private Polyline polyline;
 
     private static final int REQUEST_PERMISSION_ID = 1;
     private static final String TAG = "mapfragment";
@@ -88,24 +90,18 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Legend.class, new LegendAdapter());
         gson = gsonBuilder.create();
+
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (fusedLocationProviderClient != null) {
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-        }
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).unregisterReceiver(receiver);
     }
 
     @Override
     public void onDestroy() {
-        preferences = getActivity().getApplicationContext().getSharedPreferences("MapPreference", Context.MODE_PRIVATE);
-        editor = preferences.edit();
-
-        editor.putString("LEGENDS",gson.toJson(legends));
-        editor.apply();
         super.onDestroy();
     }
 
@@ -152,10 +148,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.getUiSettings().setMapToolbarEnabled(false);
-        map.getUiSettings().setTiltGesturesEnabled(false);
-        map.getUiSettings().setZoomGesturesEnabled(false);
-        map.getUiSettings().setScrollGesturesEnabled(false);
-        map.getUiSettings().setRotateGesturesEnabled(true);
+        //map.getUiSettings().setTiltGesturesEnabled(false);
+        //map.getUiSettings().setZoomGesturesEnabled(false);
+        //map.getUiSettings().setScrollGesturesEnabled(false);
+        //map.getUiSettings().setRotateGesturesEnabled(true);
         map.setOnMarkerClickListener(this);
 
         if(PermissionManager.checkAndRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -190,7 +186,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
                 map.animateCamera(cameraLocation);
 
                 gameManager.update(location);
-                questManager.update(location, MapFragment.this);
+                questManager.update(location, MapFragment.this, polyline);
 
 
 
@@ -198,6 +194,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
                 editor.putString(LATITUDE, Double.toString(location.getLatitude()));
                 editor.putString(LONGITUDE, Double.toString(location.getLongitude()));
+                editor.putString("LEGENDS",gson.toJson(legends));
 
                 editor.apply();
             }
@@ -264,7 +261,9 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
     @Override
     public void onStop() {
-        questManager.setLastLocation(lastLocation);
+        if(questManager != null){
+            questManager.setLastLocation(lastLocation);
+        }
         super.onStop();
     }
 
@@ -276,7 +275,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         for (int i = 0; i < locations.size(); i++){
             polyLineOptions.add(locations.get(i));
         }
-        map.addPolyline(polyLineOptions);
+        polyline = map.addPolyline(polyLineOptions);
         //Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
     }
 
@@ -298,9 +297,11 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
     @Override
     public void OnQuestFinish(Quest quest) {
-        QuestEndFragment questEndFragment = QuestEndFragment.newInstance(quest);
-        questEndFragment.showNow(getFragmentManager(), "QUEST_END_FRAGMENT: SHOWN");
-        map.clear();
+        if(polyline != null){
+            QuestEndFragment questEndFragment = QuestEndFragment.newInstance(quest);
+            questEndFragment.showNow(getFragmentManager(), "QUEST_END_FRAGMENT: SHOWN");
+            polyline.remove();
+        }
     }
 }
 

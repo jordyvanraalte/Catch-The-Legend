@@ -6,6 +6,7 @@ import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.Polyline;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -110,8 +111,8 @@ public class QuestManager {
         RouteManager.getInstance().getRoute(currentQuest.getLocations(),context, onRouteResponseListener);
     }
 
-    public void update(Location location, QuestStatusListener questStatusListener) {
-        if(location != null && currentQuest != null){
+    public void update(Location location, QuestStatusListener questStatusListener, Polyline polyline) {
+        if(location != null && currentQuest != null && polyline != null){
             if(location.distanceTo(currentQuest.getLocations().get(currentQuest.getLocations().size() - 1)) < Double.MAX_VALUE){
                 questStatusListener.OnQuestFinish(currentQuest);
                 currentQuest = null;
