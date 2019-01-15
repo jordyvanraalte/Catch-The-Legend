@@ -6,11 +6,31 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/legend_compendium_image_view"
-        android:layout_width="108dp"
-        android:layout_height="138dp"
+        android:id="@+id/compendiumbackground"
+        android:layout_width="123dp"
+        android:layout_height="209dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/legend_name_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/cardbackground" />
+
+    <ImageView
+        android:id="@+id/legend_compendium_image_view"
+        android:layout_width="94dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/compendiumbackground"
+        app:layout_constraintEnd_toEndOf="@+id/compendiumbackground"
+        app:layout_constraintStart_toStartOf="@+id/compendiumbackground"
+        app:layout_constraintTop_toTopOf="@+id/compendiumbackground"
         app:srcCompat="@drawable/question_mark" />
 
     <TextView
@@ -18,11 +38,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/partnerincrime"
         android:text="name"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/legend_compendium_image_view" />
+        app:layout_constraintTop_toBottomOf="@+id/compendiumbackground" />
 </android.support.constraint.ConstraintLayout>

@@ -7,56 +7,144 @@
     tools:context=".activities.DetailedLegendActivity"
     android:theme="@style/AppTheme">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/legend_image_view_detailed"
-                android:layout_width="0dp"
-                android:layout_height="512dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/backgroundcarddetail"
+                android:layout_width="208dp"
+                android:layout_height="356dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/cardbackground" />
+
+            <ImageView
+                android:id="@+id/legend_image_view_detailed"
+                android:layout_width="168dp"
+                android:layout_height="170dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/backgroundcarddetail"
+                app:layout_constraintEnd_toEndOf="@+id/backgroundcarddetail"
+                app:layout_constraintStart_toStartOf="@+id/backgroundcarddetail"
+                app:layout_constraintTop_toTopOf="@+id/backgroundcarddetail"
                 tools:srcCompat="@tools:sample/avatars[5]" />
 
             <TextView
-                android:id="@+id/legend_name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Name"
-                android:textSize="30sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/legend_image_view_detailed" />
-
-            <TextView
                 android:id="@+id/legend_description_text_view"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
                 android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/legend_name_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/backgroundcarddetail" />
 
             <TextView
                 android:id="@+id/amout_catched_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Cought:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toBottomOf="@+id/backgroundcarddetail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/backgroundcarddetail"
+                app:layout_constraintTop_toTopOf="@+id/backgroundcarddetail"
+                tools:text="Cought:" />
+
+            <TextView
+                android:id="@+id/realfranchise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/backgroundcarddetail"
+                app:layout_constraintTop_toBottomOf="@+id/franchise" />
+
+            <TextView
+                android:id="@+id/rarity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Catched: 0"
-                app:layout_constraintStart_toEndOf="@+id/legend_name_text_view"
-                app:layout_constraintTop_toTopOf="@+id/legend_name_text_view" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Rarity:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toBottomOf="@+id/backgroundcarddetail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/backgroundcarddetail"
+                app:layout_constraintTop_toBottomOf="@+id/amout_catched_text_view"
+                tools:text="Rarity:" />
+
+            <TextView
+                android:id="@+id/franchise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Franchise:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toTopOf="@+id/amout_catched_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/backgroundcarddetail"
+                app:layout_constraintTop_toTopOf="@+id/backgroundcarddetail"
+                tools:text="Franchise:" />
+
+            <TextView
+                android:id="@+id/coughtenzo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/backgroundcarddetail"
+                app:layout_constraintTop_toBottomOf="@+id/amout_catched_text_view" />
+
+            <TextView
+                android:id="@+id/realrariry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/backgroundcarddetail"
+                app:layout_constraintTop_toBottomOf="@+id/rarity" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
