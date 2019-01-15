@@ -42,6 +42,8 @@ import com.whisperict.catchthelegend.activities.MainActivity;
 import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.entities.LegendAdapter;
 import com.whisperict.catchthelegend.entities.Quest;
+import com.whisperict.catchthelegend.managers.Sound;
+import com.whisperict.catchthelegend.managers.SoundManager;
 import com.whisperict.catchthelegend.managers.apis.OnRouteResponseListener;
 import com.whisperict.catchthelegend.managers.game.QuestManager;
 import com.whisperict.catchthelegend.managers.game.QuestStatusListener;
@@ -91,7 +93,6 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Legend.class, new LegendAdapter());
         gson = gsonBuilder.create();
-
 
     }
 
@@ -170,7 +171,6 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         if(questManager.getCurrentQuest() != null){
             questManager.getRoute(getContext(), this);
         }
-
     }
 
 
@@ -268,8 +268,6 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         super.onStop();
     }
 
-
-
     @Override
     public void OnRouteResponse(ArrayList<LatLng> locations) {
         PolylineOptions polyLineOptions = new PolylineOptions();
@@ -284,13 +282,17 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         public void onReceive(Context context, Intent intent) {
             int resultCode = intent.getIntExtra("ResultCode", Activity.RESULT_CANCELED);
             if (resultCode == -1){
-                markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(true);
-                Log.i("GEOFENCE", "Marker visible");
+                if(map != null && markerHashMap != null){
+                    markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(true);
+                    Log.i("GEOFENCE", "Marker visible");
+                }
             }
 
             if (resultCode == 1){
-                markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(false);
-                Log.i("GEOFENCE", "marker invisible");
+                if(map != null && markerHashMap != null){
+                    markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(false);
+                    Log.i("GEOFENCE", "marker invisible");
+                }
             }
         }
     };

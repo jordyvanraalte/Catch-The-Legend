@@ -21,6 +21,8 @@ import com.whisperict.catchthelegend.fragments.CompendiumFragment;
 import com.whisperict.catchthelegend.fragments.HelpDialogFragment;
 import com.whisperict.catchthelegend.fragments.MapFragment;
 import com.whisperict.catchthelegend.fragments.QuestFragment;
+import com.whisperict.catchthelegend.managers.Sound;
+import com.whisperict.catchthelegend.managers.SoundManager;
 import com.whisperict.catchthelegend.managers.game.QuestManager;
 import com.whisperict.catchthelegend.services.GeofenceManager;
 
@@ -61,7 +63,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DatabaseManager.getInstance(this);
         //gets quests from firebase
         QuestManager questManager = QuestManager.getInstance(getApplicationContext());
+        //SoundManager.getInstance().addToPlayList(new Sound(R.raw.adventure_music, getApplicationContext()));
+        //SoundManager.getInstance().playPlayList();
+        SoundManager.getInstance().playConstant(new Sound(R.raw.adventure_music, getApplicationContext()));
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

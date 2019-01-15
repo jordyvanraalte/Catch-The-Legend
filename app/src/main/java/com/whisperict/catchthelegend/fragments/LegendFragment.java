@@ -133,7 +133,7 @@ public class LegendFragment extends DialogFragment {
             scaledown.setDuration(3000);
             scaledown.start();
 
-            SoundManager.playSound(new Sound(R.raw.victory_sound, getContext()));
+            SoundManager.getInstance().playSound(new Sound(R.raw.victory_sound, getContext()));
 
             started = true;
         }
