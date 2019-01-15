@@ -44,7 +44,7 @@ public class GameManager implements OnLegendApiResponseListener {
     public void update(Location userLocation) {
         if(userLocation.distanceTo(this.lastSpawnLocation) >= 200){
             this.lastSpawnLocation = userLocation;
-            //gameResponseListener.deSpawnLegends();
+            gameResponseListener.deSpawnLegends();
             //generate 15 legends in radius of 200m.
             for(int i = 0; i < 15; i++){
                 getRandomLegend(generateTier());
