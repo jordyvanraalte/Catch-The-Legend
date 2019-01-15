@@ -37,20 +37,8 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        vibrateSwitch = (Switch) findViewById(R.id.vibrate_switch);
-
-        vibrateSwitch.setChecked(preferences.getBoolean("VIBRATE_BOOL", true));
-        vibrateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                editor = preferences.edit();
-                editor.putBoolean("VIBRATE_BOOL",b);
-                editor.apply();
-            }
-        });
         musicSwitch = findViewById(R.id.sound_switch);
-        musicSwitch.setChecked(preferences.getBoolean("VIBRATE_BOOL", true));
+        musicSwitch.setChecked(preferences.getBoolean("SOUND_BOOL", true));
 
         musicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

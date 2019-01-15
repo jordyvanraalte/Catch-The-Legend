@@ -125,7 +125,7 @@
                 tools:text="Franchise:" />
 
             <TextView
-                android:id="@+id/coughtenzo"
+                android:id="@+id/caughted_amount_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

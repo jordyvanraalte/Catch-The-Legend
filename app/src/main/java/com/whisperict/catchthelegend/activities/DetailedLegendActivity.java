@@ -3,6 +3,7 @@ package com.whisperict.catchthelegend.activities;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -36,10 +37,13 @@ public class DetailedLegendActivity extends AppCompatActivity {
             TextView legendFranchise = findViewById(R.id.realfranchise);
             //TextView legendNameTextView  = findViewById(R.id.legend_name_text_view);
             TextView legendDescriptionTextView = findViewById(R.id.legend_description_text_view);
-            TextView amountCatchedTextView = findViewById(R.id.amout_catched_text_view);
+            TextView amountCatchedTextView = findViewById(R.id.caughted_amount_text_view);
 
             //legendNameTextView.setText(legend.getName());
             legendDescriptionTextView.setText(legend.getDescriptionEnglish());
+
+
+            Log.d("LEGEND_CAPTURED", legend.getCapturedAmount() + "");
 
             amountCatchedTextView.setText(legend.getCapturedAmount() + "");
             legendRarity.setText(legend.getRarity());
@@ -50,11 +54,11 @@ public class DetailedLegendActivity extends AppCompatActivity {
             TextView legendFranchise = findViewById(R.id.realfranchise);
             //TextView legendNameTextView  = findViewById(R.id.legend_name_text_view);
             TextView legendDescriptionTextView = findViewById(R.id.legend_description_text_view);
-            //TextView amountCatchedTextView = findViewById(R.id.amout_catched_text_view);
+            TextView amountCatchedTextView = findViewById(R.id.caughted_amount_text_view);
 
             //legendNameTextView.setText(legend.getName());
             legendDescriptionTextView.setText(legend.getDescriptionDutch());
-            //amountCatchedTextView.setText(legend.getCapturedAmount());
+            amountCatchedTextView.setText(legend.getCapturedAmount() + "");
             legendRarity.setText(legend.getRarity());
             legendFranchise.setText(legend.getFranchise());
         }
@@ -63,11 +67,11 @@ public class DetailedLegendActivity extends AppCompatActivity {
             TextView legendFranchise = findViewById(R.id.realfranchise);
             //TextView legendNameTextView  = findViewById(R.id.legend_name_text_view);
             TextView legendDescriptionTextView = findViewById(R.id.legend_description_text_view);
-            //TextView amountCatchedTextView = findViewById(R.id.amout_catched_text_view);
+            TextView amountCatchedTextView = findViewById(R.id.caughted_amount_text_view);
 
             //legendNameTextView.setText(legend.getName());
             legendDescriptionTextView.setText(legend.getDescriptionEnglish());
-            //amountCatchedTextView.setText(legend.getCapturedAmount());
+            amountCatchedTextView.setText(legend.getCapturedAmount() + "");
             legendRarity.setText(legend.getRarity());
             legendFranchise.setText(legend.getFranchise());
         }
