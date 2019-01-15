@@ -1,4 +1,4 @@
-package com.whisperict.catchthelegend.managers.apis;
+package com.whisperict.catchthelegend.controllers.managers.apis;
 
 import android.content.Context;
 import android.location.Location;
@@ -8,15 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.firebase.firestore.GeoPoint;
 import com.google.maps.android.PolyUtil;
-import com.google.maps.model.DirectionsLeg;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DirectionsRoute;
-import com.google.maps.model.DirectionsStep;
-import com.google.maps.model.EncodedPolyline;
-import com.google.maps.model.GeocodedWaypoint;
-import com.google.maps.model.LatLng;
 
 
 import org.json.JSONArray;

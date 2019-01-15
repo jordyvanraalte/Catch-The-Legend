@@ -1,4 +1,4 @@
-package com.whisperict.catchthelegend.managers.apis;
+package com.whisperict.catchthelegend.controllers.managers.apis;
 
 import android.location.Location;
 

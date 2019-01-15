@@ -1,4 +1,4 @@
-package com.whisperict.catchthelegend.managers.map;
+package com.whisperict.catchthelegend.controllers.managers.map;
 
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;

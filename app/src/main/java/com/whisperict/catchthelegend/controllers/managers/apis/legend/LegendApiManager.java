@@ -1,4 +1,4 @@
-package com.whisperict.catchthelegend.managers.apis.legend;
+package com.whisperict.catchthelegend.controllers.managers.apis.legend;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.whisperict.catchthelegend.entities.Legend;
+import com.whisperict.catchthelegend.model.entities.Legend;
 
 import org.json.JSONArray;
 import org.json.JSONException;

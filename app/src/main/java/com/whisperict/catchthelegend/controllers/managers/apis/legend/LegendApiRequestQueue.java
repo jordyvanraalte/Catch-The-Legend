@@ -1,4 +1,4 @@
-package com.whisperict.catchthelegend.managers.apis.legend;
+package com.whisperict.catchthelegend.controllers.managers.apis.legend;
 
 import android.content.Context;
 

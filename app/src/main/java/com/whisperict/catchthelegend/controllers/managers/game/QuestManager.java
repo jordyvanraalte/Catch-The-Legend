@@ -1,4 +1,4 @@
-package com.whisperict.catchthelegend.managers.game;
+package com.whisperict.catchthelegend.controllers.managers.game;
 
 
 
@@ -11,12 +11,12 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-import com.whisperict.catchthelegend.entities.Legend;
-import com.whisperict.catchthelegend.entities.Quest;
-import com.whisperict.catchthelegend.managers.apis.OnRouteResponseListener;
-import com.whisperict.catchthelegend.managers.apis.RouteManager;
-import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
-import com.whisperict.catchthelegend.managers.apis.legend.OnLegendApiResponseListener;
+import com.whisperict.catchthelegend.controllers.managers.apis.OnRouteResponseListener;
+import com.whisperict.catchthelegend.controllers.managers.apis.RouteManager;
+import com.whisperict.catchthelegend.controllers.managers.apis.legend.LegendApiManager;
+import com.whisperict.catchthelegend.model.entities.Legend;
+import com.whisperict.catchthelegend.model.entities.Quest;
+import com.whisperict.catchthelegend.controllers.managers.apis.legend.OnLegendApiResponseListener;
 
 import java.util.ArrayList;
 import java.util.List;

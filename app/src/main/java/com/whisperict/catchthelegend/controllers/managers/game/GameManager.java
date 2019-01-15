@@ -1,11 +1,11 @@
-package com.whisperict.catchthelegend.managers.game;
+package com.whisperict.catchthelegend.controllers.managers.game;
 
 import android.content.Context;
 import android.location.Location;
 
-import com.whisperict.catchthelegend.entities.Legend;
-import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
-import com.whisperict.catchthelegend.managers.apis.legend.OnLegendApiResponseListener;
+import com.whisperict.catchthelegend.model.entities.Legend;
+import com.whisperict.catchthelegend.controllers.managers.apis.legend.LegendApiManager;
+import com.whisperict.catchthelegend.controllers.managers.apis.legend.OnLegendApiResponseListener;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -1,4 +1,4 @@
-package com.whisperict.catchthelegend.managers.apis;
+package com.whisperict.catchthelegend.controllers.managers.apis;
 
 import com.google.android.gms.maps.model.LatLng;
 

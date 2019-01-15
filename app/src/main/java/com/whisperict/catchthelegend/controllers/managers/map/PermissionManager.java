@@ -1,4 +1,4 @@
-package com.whisperict.catchthelegend.managers.map;
+package com.whisperict.catchthelegend.controllers.managers.map;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,8 +1,6 @@
-package com.whisperict.catchthelegend.managers.apis.legend;
+package com.whisperict.catchthelegend.controllers.managers.apis.legend;
 
-import android.graphics.Bitmap;
-
-import com.whisperict.catchthelegend.entities.Legend;
+import com.whisperict.catchthelegend.model.entities.Legend;
 
 import java.util.ArrayList;
 

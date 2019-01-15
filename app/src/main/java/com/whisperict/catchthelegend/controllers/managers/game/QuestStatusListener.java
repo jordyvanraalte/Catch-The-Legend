@@ -1,7 +1,6 @@
-package com.whisperict.catchthelegend.managers.game;
+package com.whisperict.catchthelegend.controllers.managers.game;
 
-import com.whisperict.catchthelegend.entities.Legend;
-import com.whisperict.catchthelegend.entities.Quest;
+import com.whisperict.catchthelegend.model.entities.Quest;
 
 public interface QuestStatusListener {
     void OnQuestFinish(Quest quest);
