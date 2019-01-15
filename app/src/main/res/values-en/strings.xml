@@ -4,6 +4,10 @@
     <string name="help" translatable="false">Help</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="help_title">Welcome!</string>
+    <string name="help_text">Catch the legend is a game similar to pokemon go! The objective of catch the legend is to walk around your enviorement and collect legends from different franchises. You can find these by looking at the map and finding yellow explanation marks.
+    When you click on this mark you receive the legend! You can then later find this legend in your compendium. You can also start a special quest. When following the quest you must reach the given destination by the quest. When you reach your destination you receive a special quest legend!
+    We hope you enjoy the game and have fun!</string>
     <string name="quests">Quests</string>
     <string name="compendium">Compendium</string>
     <string name="settings">Settings</string>

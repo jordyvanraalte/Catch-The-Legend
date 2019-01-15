@@ -3,6 +3,10 @@
     <string name="app_name">Catch The Legend</string>
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
+    <string name="help_title">Welkom!</string>
+    <string name="help_text">Catch the legend is een spel dat lijkt op Pokémon Go! Het doel van het vangen van de legende is om rond je omgeving te lopen en legendes van verschillende franchises te verzamelen. Je kunt deze vinden door naar de kaart te kijken en de aanduidingen van de gele uitroeptekens te vinden.
+    Wanneer u op dit teken klikt, ontvangt u de legende! Je kunt dan later deze legende vinden in je compendium. Je kunt ook een speciale quest beginnen. Bij het volgen van de quest moet je de gegeven bestemming bereiken door de quest. Wanneer je je bestemming bereikt, ontvang je een speciale questlegende!
+    We hopen dat je geniet van het spel en veel plezier hebt!</string>
     <string name="quests">Missies</string>
     <string name="compendium">Verzameling</string>
     <string name="settings">Opties</string>

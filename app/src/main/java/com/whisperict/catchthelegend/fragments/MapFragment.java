@@ -230,6 +230,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
     @Override
     public void spawnLegends(ArrayList<Legend> legends) {
+        icon = BitmapDescriptorFactory.fromResource(R.mipmap.questmarkertwee);
         for(Legend legend : legends){
             this.legends.add(legend);
             Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
@@ -247,11 +248,13 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     }
 
     private void respawnLegends(Legend[] savedLegends){
+        icon = BitmapDescriptorFactory.fromResource(R.mipmap.questmarkertwee);
         for(Legend legend : savedLegends){
             legends.add(legend);
             Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
             legendMark.setTag(legend);
             legendMark.setVisible(false);
+            legendMark.setIcon(icon);
             markerHashMap.put(legend.getUniqueId(), legendMark);
             //GeofenceManager.getInstance().addGeofenceLegends(legends);
         }
@@ -303,15 +306,19 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         public void onReceive(Context context, Intent intent) {
             int resultCode = intent.getIntExtra("ResultCode", Activity.RESULT_CANCELED);
             if (resultCode == -1){
+                //icon = BitmapDescriptorFactory.fromResource(R.mipmap.questmarkertwee);
                 if(map != null && markerHashMap != null){
                     markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(true);
+                    //markerHashMap.get(intent.getStringExtra("GeofenceID")).setIcon(icon);
                     Log.i("GEOFENCE", "Marker visible");
                 }
             }
 
             if (resultCode == 1){
+                icon = BitmapDescriptorFactory.fromResource(R.mipmap.cardbackground);
                 if(map != null && markerHashMap != null){
                     markerHashMap.get(intent.getStringExtra("GeofenceID")).setVisible(false);
+                    //markerHashMap.get(intent.getStringExtra("GeofenceID")).setIcon(icon);
                     Log.i("GEOFENCE", "marker invisible");
                 }
             }
