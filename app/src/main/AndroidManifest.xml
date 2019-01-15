@@ -19,10 +19,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning"
-        android:name=".services.MobileApplication"
+        android:name=".controllers.services.MobileApplication"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".views.activities.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -32,12 +32,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SettingActivity"
-            android:parentActivityName=".activities.MainActivity"
+            android:name=".views.activities.SettingActivity"
+            android:parentActivityName=".views.activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".views.activities.MainActivity" />
         </activity>
 
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
@@ -55,25 +55,25 @@
             android:value="@string/google_maps_key" />
 
         <receiver
-            android:name=".services.GeofenceBroadcastReceiver"
+            android:name=".controllers.services.GeofenceBroadcastReceiver"
             android:enabled="true"
             android:exported="false" />
 
         <service
-            android:name=".services.GeofenceTransitionsService"
+            android:name=".controllers.services.GeofenceTransitionsService"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity
-            android:name=".activities.DetailedLegendActivity"
-            android:parentActivityName=".activities.MainActivity"
+            android:name=".views.activities.DetailedLegendActivity"
+            android:parentActivityName=".views.activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".views.activities.MainActivity" />
         </activity>
 
-        <activity android:name=".activities.CatchActivity"
+        <activity android:name=".views.activities.CatchActivity"
             android:theme="@style/AppTheme" />
     </application>
 
