@@ -81,24 +81,42 @@ public class LegendFragment extends DialogFragment {
         ImageView legendImage = view.findViewById(R.id.legend_fragment_image_view);
         Picasso.get().load(LegendApiManager.getInstance().getLegendImageUrl(legend.getName())).into(legendImage);
 
-        Button catchButton = view.findViewById(R.id.legend_fragment_catch_button);
-        catchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppDatabase appDb = DatabaseManager.getInstance(getContext()).getAppDatabase();
-                Executor databaseThread = Executors.newSingleThreadExecutor();
-                databaseThread.execute(() -> {
-                    if (appDb.legendDao().getLegendById(legend.getId()) != null) {
-                        Legend legendDb = appDb.legendDao().getLegendById(legend.getId());
-                        legendDb.setCapturedAmount(legendDb.getCapturedAmount() + 1);
-                        appDb.legendDao().updateLegend(legendDb);
-                    } else {
-                        legend.setCapturedAmount(1);
-                        legend.setCaptured(true);
-                        appDb.legendDao().insertAll(legend);
-                    }
-                });
+        ImageView background = view.findViewById(R.id.CardBackground);
+        String rarity = legend.getRarity();
 
+        switch (rarity) {
+            case "common" :
+                background.setImageResource(R.mipmap.eenster);
+                break;
+
+            case "uncommon" :
+                background.setImageResource(R.mipmap.tweesterren);
+                break;
+
+            case "rare" :
+                background.setImageResource(R.mipmap.driesterren);
+                break;
+
+            case "legend" :
+                background.setImageResource(R.mipmap.viersterren);
+                break;
+
+            case "ultra_legend" :
+                background.setImageResource(R.mipmap.vijfsterren);
+                break;
+        }
+
+        AppDatabase appDb = DatabaseManager.getInstance(getContext()).getAppDatabase();
+        Executor databaseThread = Executors.newSingleThreadExecutor();
+        databaseThread.execute(() -> {
+            if (appDb.legendDao().getLegendById(legend.getId()) != null) {
+                Legend legendDb = appDb.legendDao().getLegendById(legend.getId());
+                legendDb.setCapturedAmount(legendDb.getCapturedAmount() + 1);
+                appDb.legendDao().updateLegend(legendDb);
+            } else {
+                legend.setCapturedAmount(1);
+                legend.setCaptured(true);
+                appDb.legendDao().insertAll(legend);
             }
         });
     }

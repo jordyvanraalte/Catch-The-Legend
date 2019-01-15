@@ -47,9 +47,7 @@ public class GeofenceManager {
         if(pendingIntent != null) {
             return pendingIntent;
         }
-
         Intent intent = new Intent(context, GeofenceBroadcastReceiver.class);
-
         return pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
@@ -63,7 +61,6 @@ public class GeofenceManager {
     @SuppressWarnings("MissingPermission")
     public void addGeofenceLegends(List<Legend> legends) {
         Log.d(TAG, "addGeofenceWayPoints");
-
         if(legends.size() == 0) return;
 
         if (!PermissionManager.checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
