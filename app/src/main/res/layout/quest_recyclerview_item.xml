@@ -8,11 +8,13 @@
 
     <TextView
         android:id="@+id/quest_name_recyclerview_item"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/quest_image_view_recycler_view_item"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,15 +26,17 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/accent" />
+        app:srcCompat="@mipmap/questmarker" />
 
     <TextView
         android:id="@+id/description_text_view_recycler_view"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="Description"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/quest_image_view_recycler_view_item"
         app:layout_constraintTop_toBottomOf="@+id/quest_name_recyclerview_item" />
 
