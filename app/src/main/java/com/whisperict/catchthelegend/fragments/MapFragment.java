@@ -29,6 +29,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -71,6 +73,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     private SharedPreferences.Editor editor;
     private Gson gson;
     private Polyline polyline;
+    private BitmapDescriptor icon;
 
     private static final int REQUEST_PERMISSION_ID = 1;
     private static final String TAG = "mapfragment";
@@ -106,6 +109,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         super.onPause();
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).unregisterReceiver(receiver);
         SoundManager.getInstance().getConstantPlayer().pause();
+        GeofenceManager.getInstance().removeGeofences();
     }
 
     @Override
@@ -181,6 +185,8 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         if(questManager.getCurrentQuest() != null){
             questManager.getRoute(getContext(), this);
         }
+
+        icon = BitmapDescriptorFactory.fromResource(R.mipmap.questmarkertwee);
     }
 
 
@@ -228,7 +234,8 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             legends.add(legend);
             Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
             legendMark.setTag(legend);
-            legendMark.setVisible(false);
+            legendMark.setVisible(true);
+            legendMark.setIcon(icon);
             markerHashMap.put(legend.getUniqueId(), legendMark);
             //GeofenceManager.getInstance().addGeofenceLegends(legends);
         }

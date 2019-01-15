@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
 
+
     public static final String SHARED_PREFS = "sharedPrefs";
 
     @Override
