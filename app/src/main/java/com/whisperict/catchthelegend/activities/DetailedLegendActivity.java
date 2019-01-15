@@ -79,6 +79,5 @@ public class DetailedLegendActivity extends AppCompatActivity {
                 break;
 
         }
-        SoundManager.getInstance().getConstantPlayer().start();
     }
 }

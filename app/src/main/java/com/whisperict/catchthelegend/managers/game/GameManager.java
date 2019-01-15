@@ -24,6 +24,8 @@ public class GameManager implements OnLegendApiResponseListener {
     private Location lastSpawnLocation = new Location("");
     private boolean gameIsStarted = false;
 
+    private ArrayList<Legend> receivedLegends = new ArrayList<>();
+
     private GameResponseListener gameResponseListener;
 
 
@@ -96,7 +98,13 @@ public class GameManager implements OnLegendApiResponseListener {
 
         legend.setLatitude(spawnLatitude);
         legend.setLongitude(spawnLongitude);
-        gameResponseListener.spawnLegend(legend);
+
+        receivedLegends.add(legend);
+        if(receivedLegends.size() % 15 == 0){
+            gameResponseListener.spawnLegends(receivedLegends);
+            receivedLegends.clear();
+        }
+
     }
 
 
@@ -115,7 +123,11 @@ public class GameManager implements OnLegendApiResponseListener {
 
         legend.setLatitude(spawnLatitude);
         legend.setLongitude(spawnLongitude);
-        gameResponseListener.spawnLegend(legend);
+        receivedLegends.add(legend);
+        if(receivedLegends.size() % 15 == 0){
+            gameResponseListener.spawnLegends(receivedLegends);
+            receivedLegends.clear();
+        }
     }
 
     @Override

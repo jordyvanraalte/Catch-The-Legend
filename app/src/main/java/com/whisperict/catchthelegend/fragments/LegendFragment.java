@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -134,7 +135,9 @@ public class LegendFragment extends DialogFragment {
             scaledown.setDuration(3000);
             scaledown.start();
 
-            SoundManager.getInstance().playSound(new Sound(R.raw.victory_sound, getContext()));
+            if(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("SOUND_BOOL", true)){
+                SoundManager.getInstance().playSound(new Sound(R.raw.victory_sound, getContext()));
+            }
 
             started = true;
         }

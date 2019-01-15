@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import android.widget.Switch;
 
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.database.DatabaseManager;
-import com.whisperict.catchthelegend.managers.SoundManager;
 
 import java.util.Objects;
 import java.util.concurrent.Executor;
@@ -28,7 +26,8 @@ public class SettingActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    private Switch hepticswitch;
+    private Switch vibrateSwitch;
+    private Switch musicSwitch;
     private boolean switchOnOffHeptic;
     public static final String HEPTIC = "HEPTIC";
 
@@ -36,10 +35,33 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
         setContentView(R.layout.activity_setting);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        hepticswitch = (Switch) findViewById(R.id.hepticfeedbackswitch);
+        vibrateSwitch = (Switch) findViewById(R.id.vibrate_switch);
+
+        vibrateSwitch.setChecked(preferences.getBoolean("VIBRATE_BOOL", true));
+        vibrateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                editor = preferences.edit();
+                editor.putBoolean("VIBRATE_BOOL",b);
+                editor.apply();
+            }
+        });
+        musicSwitch = findViewById(R.id.sound_switch);
+        musicSwitch.setChecked(preferences.getBoolean("VIBRATE_BOOL", true));
+
+        musicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                editor = preferences.edit();
+                editor.putBoolean("SOUND_BOOL",b);
+                editor.apply();
+            }
+        });
+
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.system_settings);
@@ -64,9 +86,6 @@ public class SettingActivity extends AppCompatActivity {
                 });
             }
         });
-
-        hepticswitch.setOnCheckedChangeListener((compoundButton, b) ->
-                editor.putBoolean(HEPTIC, hepticswitch.isChecked()));
     }
 
 
