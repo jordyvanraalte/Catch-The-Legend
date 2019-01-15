@@ -83,6 +83,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         super.onCreate(bundle);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
         gameManager = GameManager.getInstance(getContext(), this);
+        gameManager.setGameResponseListener(this);
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = preferences.edit();
         editor.apply();
@@ -189,7 +190,6 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
                 questManager.update(location, MapFragment.this, polyline);
 
 
-
                 //SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
 
                 editor.putString(LATITUDE, Double.toString(location.getLatitude()));
@@ -277,7 +277,6 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             polyLineOptions.add(locations.get(i));
         }
         polyline = map.addPolyline(polyLineOptions);
-        //Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
