@@ -224,7 +224,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         legendMark.setTag(legend);
         legendMark.setVisible(true);
         markerHashMap.put(legend.getUniqueId(), legendMark);
-        //GeofenceManager.getInstance().addGeofenceLegends(geoLegend);
+        GeofenceManager.getInstance().addGeofenceLegends(geoLegend);
     }
 
     public void setGeofence(List<Legend> legends){
@@ -248,6 +248,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             marker.remove();
         }
         markerHashMap.clear();
+        GeofenceManager.getInstance().removeGeofences();
         legends.clear();
     }
 

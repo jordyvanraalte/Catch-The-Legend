@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.database.DatabaseManager;
@@ -25,6 +27,10 @@ public class SettingActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private Switch hepticswitch;
+    private boolean switchOnOffHeptic;
+    public static final String HEPTIC = "HEPTIC";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class SettingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         setContentView(R.layout.activity_setting);
 
+        hepticswitch = (Switch) findViewById(R.id.hepticfeedbackswitch);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.system_settings);
@@ -56,5 +63,9 @@ public class SettingActivity extends AppCompatActivity {
                 });
             }
         });
+
+        hepticswitch.setOnCheckedChangeListener((compoundButton, b) ->
+                editor.putBoolean(HEPTIC, hepticswitch.isChecked()));
     }
+
 }
