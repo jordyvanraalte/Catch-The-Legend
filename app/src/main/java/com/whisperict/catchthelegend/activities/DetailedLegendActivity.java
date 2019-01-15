@@ -12,6 +12,8 @@ import android.widget.Toolbar;
 import com.squareup.picasso.Picasso;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.entities.Legend;
+import com.whisperict.catchthelegend.managers.Sound;
+import com.whisperict.catchthelegend.managers.SoundManager;
 import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
 
 import org.w3c.dom.Text;
@@ -75,6 +77,8 @@ public class DetailedLegendActivity extends AppCompatActivity {
             case "ultra_legend" :
                 background.setImageResource(R.mipmap.vijfsterren);
                 break;
+
         }
+        SoundManager.getInstance().getConstantPlayer().start();
     }
 }

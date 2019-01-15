@@ -64,6 +64,7 @@ public class LegendFragment extends DialogFragment {
         if (getArguments() != null) {
             legend = getArguments().getParcelable("LEGEND");
         }
+
     }
 
     @Override
@@ -138,4 +139,5 @@ public class LegendFragment extends DialogFragment {
             started = true;
         }
     }
+
 }

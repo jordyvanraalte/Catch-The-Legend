@@ -93,17 +93,22 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Legend.class, new LegendAdapter());
         gson = gsonBuilder.create();
+        SoundManager.getInstance().getConstantPlayer().start();
 
     }
+
+
 
     @Override
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).unregisterReceiver(receiver);
+        SoundManager.getInstance().getConstantPlayer().pause();
     }
 
     @Override
     public void onDestroy() {
+        SoundManager.getInstance().getConstantPlayer().pause();
         super.onDestroy();
     }
 
@@ -111,6 +116,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     public void onResume() {
         super.onResume();
         IntentFilter filter = new IntentFilter(GeofenceTransitionsService.ACTION);
+        SoundManager.getInstance().getConstantPlayer().start();
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(receiver, filter);
         if(PermissionManager.checkAndRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
@@ -219,7 +225,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         geoLegend.add(legend);
         Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
-        legendMark.setVisible(false);
+        legendMark.setVisible(true);
         markerHashMap.put(legend.getUniqueId(), legendMark);
         GeofenceManager.getInstance().addGeofenceLegends(geoLegend);
     }

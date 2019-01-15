@@ -126,10 +126,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        GeofenceManager.getInstance().removeGeofences();
-        super.onDestroy();
-    }
 }

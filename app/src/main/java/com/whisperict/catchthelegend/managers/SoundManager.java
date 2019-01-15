@@ -114,5 +114,11 @@ public class SoundManager implements MediaPlayer.OnCompletionListener {
         return instance;
     }
 
+    public MediaPlayer getConstantPlayer() {
+        return constantPlayer;
+    }
 
+    public void setConstantPlayer(MediaPlayer constantPlayer) {
+        this.constantPlayer = constantPlayer;
+    }
 }

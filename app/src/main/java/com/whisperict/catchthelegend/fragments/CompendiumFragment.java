@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.whisperict.catchthelegend.activities.DetailedLegendActivity;
 import com.whisperict.catchthelegend.adapters.CompendiumAdapter;
 import com.whisperict.catchthelegend.database.DatabaseManager;
 import com.whisperict.catchthelegend.entities.Legend;
+import com.whisperict.catchthelegend.managers.SoundManager;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -37,6 +39,14 @@ public class CompendiumFragment extends Fragment implements CompendiumAdapter.On
             super.handleMessage(msg);
         }
     };
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(!SoundManager.getInstance().getConstantPlayer().isPlaying()){
+            SoundManager.getInstance().getConstantPlayer().start();
+        }
+    }
 
     @Nullable
     @Override

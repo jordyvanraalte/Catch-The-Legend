@@ -18,6 +18,7 @@ import android.widget.Switch;
 
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.database.DatabaseManager;
+import com.whisperict.catchthelegend.managers.SoundManager;
 
 import java.util.Objects;
 import java.util.concurrent.Executor;
@@ -67,5 +68,6 @@ public class SettingActivity extends AppCompatActivity {
         hepticswitch.setOnCheckedChangeListener((compoundButton, b) ->
                 editor.putBoolean(HEPTIC, hepticswitch.isChecked()));
     }
+
 
 }

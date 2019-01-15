@@ -56,7 +56,10 @@ public class QuestEndFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             quest = getArguments().getParcelable("QUEST");
+        }
 
+        if(!SoundManager.getInstance().getConstantPlayer().isPlaying()){
+            SoundManager.getInstance().getConstantPlayer().start();
         }
     }
 
@@ -94,4 +97,5 @@ public class QuestEndFragment extends DialogFragment {
             started = true;
         }
     }
+
 }

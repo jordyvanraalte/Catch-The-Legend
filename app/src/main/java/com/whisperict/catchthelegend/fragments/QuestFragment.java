@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.whisperict.catchthelegend.R;
 import com.whisperict.catchthelegend.adapters.QuestAdapter;
 import com.whisperict.catchthelegend.entities.Quest;
+import com.whisperict.catchthelegend.managers.SoundManager;
 import com.whisperict.catchthelegend.managers.apis.RouteManager;
 import com.whisperict.catchthelegend.managers.game.QuestManager;
 
@@ -23,6 +24,12 @@ import java.util.Objects;
 
 public class QuestFragment extends Fragment implements QuestAdapter.OnItemClickListener {
     private ArrayList<Quest> quests = new ArrayList<>();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SoundManager.getInstance().getConstantPlayer().start();
+    }
 
     @Nullable
     @Override
@@ -51,4 +58,5 @@ public class QuestFragment extends Fragment implements QuestAdapter.OnItemClickL
         Toast.makeText(getContext(),"quest has been set",Toast.LENGTH_LONG).show();
 
     }
+
 }
