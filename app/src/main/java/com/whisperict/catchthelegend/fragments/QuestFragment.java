@@ -33,7 +33,7 @@ public class QuestFragment extends Fragment implements QuestAdapter.OnItemClickL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        quests = QuestManager.getInstance().getQuests();
+        quests = QuestManager.getInstance(getContext()).getQuests();
 
 
         //recyclerview components.
@@ -47,7 +47,8 @@ public class QuestFragment extends Fragment implements QuestAdapter.OnItemClickL
 
     @Override
     public void onItemClick(int position) {
-        QuestManager.getInstance().setCurrentQuest(quests.get(position));
+        QuestManager.getInstance(getContext()).setCurrentQuest(quests.get(position));
         Toast.makeText(getContext(),"quest has been set",Toast.LENGTH_LONG).show();
+
     }
 }

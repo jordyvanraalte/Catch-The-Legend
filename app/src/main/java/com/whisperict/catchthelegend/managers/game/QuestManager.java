@@ -10,9 +10,12 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.entities.Quest;
 import com.whisperict.catchthelegend.managers.apis.OnRouteResponseListener;
 import com.whisperict.catchthelegend.managers.apis.RouteManager;
+import com.whisperict.catchthelegend.managers.apis.legend.LegendApiManager;
+import com.whisperict.catchthelegend.managers.apis.legend.OnLegendApiResponseListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,7 @@ public class QuestManager {
     private ArrayList<Quest> quests = new ArrayList<>();
     private Quest currentQuest;
     private Location lastLocation;
-    private QuestManager(){
+    private QuestManager(Context context){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quests = db.collection("Quests");
         quests.get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -32,7 +35,12 @@ public class QuestManager {
             else {
                 for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     String name = documentSnapshot.getString("name");
-                    String description = documentSnapshot.getString("description");
+                    String descriptionDutch = documentSnapshot.getString("descriptionDutch");
+                    String descriptionEndDutch = documentSnapshot.getString("descriptionEndDutch");
+                    String descriptionEnglish = documentSnapshot.getString("descriptionEnglish");
+                    String descriptionEndEnglish = documentSnapshot.getString("descriptionEndEnglish");
+                    String legendName = documentSnapshot.getString("reward");
+
                     List<GeoPoint> geoPoints = (List<GeoPoint>) documentSnapshot.get("locations");
                     ArrayList<Location> locations = new ArrayList<>();
                     for(GeoPoint geoPoint : geoPoints){
@@ -41,7 +49,27 @@ public class QuestManager {
                         location.setLongitude(geoPoint.getLongitude());
                         locations.add(location);
                     }
-                    this.quests.add(new Quest(name, description, locations));
+                    LegendApiManager.getInstance().getLegend(context, new OnLegendApiResponseListener() {
+                        @Override
+                        public void OnLegendReceive(Legend legend) {
+                            QuestManager.instance.quests.add(new Quest(name,descriptionEnglish,descriptionDutch,descriptionEndEnglish,descriptionEndDutch,locations,legend));
+                        }
+
+                        @Override
+                        public void OnLegendsReceive(ArrayList<String> names) {
+
+                        }
+
+                        @Override
+                        public void OnLegendCountReceive(int count) {
+
+                        }
+
+                        @Override
+                        public void OnRandomLegendReceive(Legend legend) {
+
+                        }
+                    }, legendName);
                 }
             }
         });
@@ -71,9 +99,9 @@ public class QuestManager {
         this.lastLocation = lastLocation;
     }
 
-    public static QuestManager getInstance(){
+    public static QuestManager getInstance(Context context){
         if(instance == null){
-            instance = new QuestManager();
+            instance = new QuestManager(context);
         }
         return instance;
     }
@@ -83,8 +111,11 @@ public class QuestManager {
     }
 
     public void update(Location location, QuestStatusListener questStatusListener) {
-        if(location.distanceTo(lastLocation) < 30){
-            //questStatusListener.OnQuestFinish();
+        if(location != null && currentQuest != null){
+            if(location.distanceTo(currentQuest.getLocations().get(currentQuest.getLocations().size() - 1)) < Double.MAX_VALUE){
+                questStatusListener.OnQuestFinish(currentQuest);
+                currentQuest = null;
+            }
         }
     }
 }

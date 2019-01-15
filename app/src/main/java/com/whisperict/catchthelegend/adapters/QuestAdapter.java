@@ -42,7 +42,7 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull QuestAdapter.ViewHolder viewHolder, int i) {
         Quest quest = quests.get(i);
         viewHolder.nameTextView.setText(quest.getName());
-        viewHolder.descriptionTextView.setText(quest.getDescription());
+        viewHolder.descriptionTextView.setText(quest.getDescriptionEnglish());
     }
 
     @Override

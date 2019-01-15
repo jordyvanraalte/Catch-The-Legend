@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //creates a DatabaseManager instance
         DatabaseManager.getInstance(this);
         //gets quests from firebase
-        QuestManager questManager = QuestManager.getInstance();
+        QuestManager questManager = QuestManager.getInstance(getApplicationContext());
     }
 
     @Override

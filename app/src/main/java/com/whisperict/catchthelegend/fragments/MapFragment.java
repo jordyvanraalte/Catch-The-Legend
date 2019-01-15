@@ -40,6 +40,7 @@ import com.whisperict.catchthelegend.activities.CatchActivity;
 import com.whisperict.catchthelegend.activities.MainActivity;
 import com.whisperict.catchthelegend.entities.Legend;
 import com.whisperict.catchthelegend.entities.LegendAdapter;
+import com.whisperict.catchthelegend.entities.Quest;
 import com.whisperict.catchthelegend.managers.apis.OnRouteResponseListener;
 import com.whisperict.catchthelegend.managers.game.QuestManager;
 import com.whisperict.catchthelegend.managers.game.QuestStatusListener;
@@ -80,7 +81,6 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         super.onCreate(bundle);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
         gameManager = GameManager.getInstance(getContext(), this);
-        questManager = QuestManager.getInstance();
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = preferences.edit();
         editor.apply();
@@ -169,8 +169,9 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             respawnLegends(saveLegends);
         }
 
-        if(QuestManager.getInstance().getCurrentQuest() != null){
-            QuestManager.getInstance().getRoute(getContext(), this);
+        questManager = QuestManager.getInstance(getContext());
+        if(questManager.getCurrentQuest() != null){
+            questManager.getRoute(getContext(), this);
         }
 
     }
@@ -189,6 +190,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
                 map.animateCamera(cameraLocation);
 
                 gameManager.update(location);
+                questManager.update(location, MapFragment.this);
 
 
 
@@ -220,7 +222,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
         geoLegend.add(legend);
         Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(legend.getLocation().getLatitude(), legend.getLocation().getLongitude())));
         legendMark.setTag(legend);
-        legendMark.setVisible(false);
+        legendMark.setVisible(true);
         markerHashMap.put(legend.getUniqueId(), legendMark);
         //GeofenceManager.getInstance().addGeofenceLegends(geoLegend);
     }
@@ -262,7 +264,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
 
     @Override
     public void onStop() {
-        QuestManager.getInstance().setLastLocation(lastLocation);
+        questManager.setLastLocation(lastLocation);
         super.onStop();
     }
 
@@ -275,7 +277,7 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
             polyLineOptions.add(locations.get(i));
         }
         map.addPolyline(polyLineOptions);
-        Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
+        //Marker legendMark = map.addMarker(new MarkerOptions().position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -295,8 +297,10 @@ public class MapFragment extends Fragment implements MapManager.OnMapReadyListen
     };
 
     @Override
-    public void OnQuestFinish(Legend legend) {
-
+    public void OnQuestFinish(Quest quest) {
+        QuestEndFragment questEndFragment = QuestEndFragment.newInstance(quest);
+        questEndFragment.showNow(getFragmentManager(), "QUEST_END_FRAGMENT: SHOWN");
+        map.clear();
     }
 }
 
